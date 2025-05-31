@@ -72,7 +72,28 @@ This template should be used for all your project related reports in APS360 cour
 The challenge of image colourization has been approached in a wide variety of ways. Even within solutions involving deep learning
 techniques, there numerous unique design choices. One grouping method \cite{zeger2021grayscale} results in five categories: simple colourization neural networks,
 user-guided colourization neural networks, diverse colourization neural networks, multi-path colourization neural networks, and examplar-based
-neural networks.
+neural networks. 
+
+Simple colourization neural networks use feedforward CNNs to map grayscale inputs to colour outputs. One of the foremost solutions proposed by
+Zhang et al. \cite{zhang2016colorful} used a fully convolutional network to predict the a and b channels of the CIELAB colour space from grayscale images. Their 
+architecture is composed of several convulational layers, each followed by a ReLU activation function and a batch normailization layer.
+
+User-guided colourization neural networks use user input to guide the colourization process. One such solution \cite{zhang2017real} uses a
+fully convolutional network to predict the a and b channels of the CIELAB colour space from grayscale images, but also takes user input in the form of
+user-provided colour scribbles. The network is trained to minimize the difference between the predicted and user-provided colours, allowing it to
+learn to colourize images in a way that is consistent with the user's input. 
+
+Diverse colourization networks produce multiple colourization outputs for a given grayscale input. One such solution \cite{Vitoria2020ChromaGAN} uses
+a generative adversarial network (GAN) to produce multiple colourization outputs for a given grayscale input. The GAN is trained to minimize the difference
+between the predicted and ground truth colours, allowing it to learn to produce diverse colourization outputs. 
+
+Multi-path colourization neural networks differentiate features at different scales. Iizuka et al. \cite{Iizuka2016Colourization} proposed a multi-path
+colourization neural network that uses multiple convolutional layers to extract features at different scales. The network is trained to minimize the difference
+between the predicted and ground truth colours, allowing it to learn to produce colourization outputs that are consistent with the features at different scales. 
+
+Exemplar-based neural networks use a set of exemplar images to guide the colourization process. In Su et al \cite{su2020instanceawareimagecolorization}, example images are
+used to trasnfer the colour to the target image. Each instance is ouput to two different colourization networks which fuse to yield the final result. This group of 
+solutions is easier to implement, as learning to colourize instances is significantly easier than learning to colourize an entire image. 
 
 \section{Methodology}
 \label{methodology}

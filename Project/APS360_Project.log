@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.20)  30 MAY 2025 11:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.20)  31 MAY 2025 11:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -353,10 +353,30 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 Package natbib Warning: Citation `zeger2021grayscale' on page 1 undefined on input line 73.
 
-c:/Users/Peter/Documents/GitHub/APS_360/Project/APS360_Project.tex:92: Misplaced alignment tab character &.
+
+Package natbib Warning: Citation `zhang2016colorful' on page 1 undefined on input line 78.
+
+
+Package natbib Warning: Citation `zhang2017real' on page 1 undefined on input line 81.
+
+
+Package natbib Warning: Citation `Vitoria2020ChromaGAN' on page 1 undefined on input line 86.
+
+
+Package natbib Warning: Citation `Iizuka2016Colourization' on page 1 undefined on input line 90.
+
+
+Package natbib Warning: Citation `su2020instanceawareimagecolorization' on page 1 undefined on input line 94.
+
+
+
+[1{C:/Users/Peter/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
+
+]
+c:/Users/Peter/Documents/GitHub/APS_360/Project/APS360_Project.tex:113: Misplaced alignment tab character &.
 <argument> Team Communication &
                                 Coordination
-l.92 ...section{Team Communication & Coordination}
+l.113 ...ection{Team Communication & Coordination}
                                                   
 I can't figure out why you would want to use a tab mark
 here. If you just want an ampersand, the remedy is
@@ -367,7 +387,7 @@ might try typing `S' now just to see what is salvageable.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `alignment tab' on input line 92.
+(hyperref)                removing `alignment tab' on input line 113.
 
 No file APS360_Project.bbl.
 
@@ -375,9 +395,7 @@ Package natbib Warning: There were undefined citations.
 
 
 
-[1{C:/Users/Peter/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
-
-] (APS360_Project.aux)
+[2] (APS360_Project.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-03-26>
@@ -386,17 +404,17 @@ Package rerunfilecheck Info: File `APS360_Project.out' has not changed.
 (rerunfilecheck)             Checksum: 7296A2564B80B52ECBD5ED64DEE5A9FC;1369.
  ) 
 Here is how much of TeX's memory you used:
- 10971 strings out of 469958
- 163410 string characters out of 5469813
- 567595 words of memory out of 5000000
+ 10972 strings out of 469958
+ 163416 string characters out of 5469813
+ 570595 words of memory out of 5000000
  37599 multiletter control sequences out of 15000+600000
  643900 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,79p,328b,446s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,79p,328b,447s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb>
-Output written on APS360_Project.pdf (1 page, 51070 bytes).
+Output written on APS360_Project.pdf (2 pages, 53704 bytes).
 PDF statistics:
- 71 PDF objects out of 1000 (max. 8388607)
- 12 named destinations out of 1000 (max. 500000)
+ 76 PDF objects out of 1000 (max. 8388607)
+ 13 named destinations out of 1000 (max. 500000)
  81 words of extra memory for PDF output out of 10000 (max. 10000000)
 

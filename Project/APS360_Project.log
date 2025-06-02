@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.20)  31 MAY 2025 11:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.20)  2 JUN 2025 11:15
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -406,13 +406,13 @@ Package rerunfilecheck Info: File `APS360_Project.out' has not changed.
 Here is how much of TeX's memory you used:
  10972 strings out of 469958
  163416 string characters out of 5469813
- 570595 words of memory out of 5000000
+ 570596 words of memory out of 5000000
  37599 multiletter control sequences out of 15000+600000
  643900 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,11n,79p,328b,447s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb>
-Output written on APS360_Project.pdf (2 pages, 53704 bytes).
+Output written on APS360_Project.pdf (2 pages, 53711 bytes).
 PDF statistics:
  76 PDF objects out of 1000 (max. 8388607)
  13 named destinations out of 1000 (max. 500000)

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.20)  2 JUN 2025 11:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.20)  4 JUN 2025 17:30
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -334,60 +334,40 @@ LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 59
  (C:\Users\Peter\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-c:/Users/Peter/Documents/GitHub/APS_360/Project/APS360_Project.tex:70: Misplaced alignment tab character &.
-<argument> Background &
-                        Related Work
-l.70 \subsection{Background & Related Work}
-                                           
-I can't figure out why you would want to use a tab mark
-here. If you just want an ampersand, the remedy is
-simple: Just type `I\&' now. But if some right brace
-up above has ended a previous alignment prematurely,
-you're probably due for more error messages, and you
-might try typing `S' now just to see what is salvageable.
+
+Package natbib Warning: Citation `scienceandmediamuseum2020' on page 1 undefined on input line 70.
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `alignment tab' on input line 70.
+Package natbib Warning: Citation `vogelsang2024impact' on page 1 undefined on input line 72.
 
 
-Package natbib Warning: Citation `zeger2021grayscale' on page 1 undefined on input line 73.
+Package natbib Warning: Citation `cheng2016deepcolorization' on page 1 undefined on input line 75.
 
 
-Package natbib Warning: Citation `zhang2016colorful' on page 1 undefined on input line 78.
+Package natbib Warning: Citation `zhang2016colorful' on page 1 undefined on input line 76.
 
 
-Package natbib Warning: Citation `zhang2017real' on page 1 undefined on input line 81.
+Package natbib Warning: Citation `zeger2021grayscale' on page 1 undefined on input line 81.
 
 
-Package natbib Warning: Citation `Vitoria2020ChromaGAN' on page 1 undefined on input line 86.
+Package natbib Warning: Citation `zhang2016colorful' on page 1 undefined on input line 86.
 
 
-Package natbib Warning: Citation `Iizuka2016Colourization' on page 1 undefined on input line 90.
+Package natbib Warning: Citation `zhang2017real' on page 1 undefined on input line 89.
 
 
-Package natbib Warning: Citation `su2020instanceawareimagecolorization' on page 1 undefined on input line 94.
+Package natbib Warning: Citation `Vitoria2020ChromaGAN' on page 1 undefined on input line 94.
 
 
 
 [1{C:/Users/Peter/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 ]
-c:/Users/Peter/Documents/GitHub/APS_360/Project/APS360_Project.tex:113: Misplaced alignment tab character &.
-<argument> Team Communication &
-                                Coordination
-l.113 ...ection{Team Communication & Coordination}
-                                                  
-I can't figure out why you would want to use a tab mark
-here. If you just want an ampersand, the remedy is
-simple: Just type `I\&' now. But if some right brace
-up above has ended a previous alignment prematurely,
-you're probably due for more error messages, and you
-might try typing `S' now just to see what is salvageable.
+
+Package natbib Warning: Citation `Iizuka2016Colourization' on page 2 undefined on input line 98.
 
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `alignment tab' on input line 113.
+Package natbib Warning: Citation `su2020instanceawareimagecolorization' on page 2 undefined on input line 102.
 
 No file APS360_Project.bbl.
 
@@ -400,8 +380,15 @@ Package natbib Warning: There were undefined citations.
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-03-26>
  ***********
-Package rerunfilecheck Info: File `APS360_Project.out' has not changed.
-(rerunfilecheck)             Checksum: 7296A2564B80B52ECBD5ED64DEE5A9FC;1369.
+
+
+Package rerunfilecheck Warning: File `APS360_Project.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `APS360_Project.out':
+(rerunfilecheck)             Before: 7296A2564B80B52ECBD5ED64DEE5A9FC;1369
+(rerunfilecheck)             After:  4C290285F4DFA30DFFEB3926EF0755D2;1385.
  ) 
 Here is how much of TeX's memory you used:
  10972 strings out of 469958
@@ -412,7 +399,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  75i,11n,79p,328b,447s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb>
-Output written on APS360_Project.pdf (2 pages, 53711 bytes).
+Output written on APS360_Project.pdf (2 pages, 55202 bytes).
 PDF statistics:
  76 PDF objects out of 1000 (max. 8388607)
  13 named destinations out of 1000 (max. 500000)

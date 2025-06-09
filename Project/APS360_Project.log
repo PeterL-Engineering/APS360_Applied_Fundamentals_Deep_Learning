@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.20)  4 JUN 2025 17:30
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.3) (preloaded format=pdflatex 2025.4.20)  8 JUN 2025 23:01
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -380,15 +380,8 @@ Package natbib Warning: There were undefined citations.
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-03-26>
  ***********
-
-
-Package rerunfilecheck Warning: File `APS360_Project.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `APS360_Project.out':
-(rerunfilecheck)             Before: 7296A2564B80B52ECBD5ED64DEE5A9FC;1369
-(rerunfilecheck)             After:  4C290285F4DFA30DFFEB3926EF0755D2;1385.
+Package rerunfilecheck Info: File `APS360_Project.out' has not changed.
+(rerunfilecheck)             Checksum: 4C290285F4DFA30DFFEB3926EF0755D2;1385.
  ) 
 Here is how much of TeX's memory you used:
  10972 strings out of 469958
@@ -397,9 +390,9 @@ Here is how much of TeX's memory you used:
  37599 multiletter control sequences out of 15000+600000
  643900 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,79p,328b,447s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,79p,336b,447s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/Peter/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb>
-Output written on APS360_Project.pdf (2 pages, 55202 bytes).
+Output written on APS360_Project.pdf (2 pages, 55982 bytes).
 PDF statistics:
  76 PDF objects out of 1000 (max. 8388607)
  13 named destinations out of 1000 (max. 500000)

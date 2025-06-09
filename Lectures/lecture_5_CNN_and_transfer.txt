@@ -1,0 +1,65 @@
+Continuing w/ CNNs
+    - Example of Convolution on RGB Input
+        - Colour input image: 3x28x28
+        - Convolutional kernel: 5 x 3x28x28
+        - How many input channels are there? 3
+        - How many oupput channels are there? 5
+
+    - Pooling Operator
+        - Reduces the spatial size of the representation
+        - Helps to reduce the number of parameters and computation in the network
+        - Helps to control overfitting
+        - Common pooling methods:
+            - Max pooling: takes the maximum value in a region
+                - Output dimensions: (input_height - kernel_height) / stride + 1
+            - Average pooling: takes the average value in a region
+            - Strided convolutions: uses a stride greater than 1 to reduce the spatial size
+                - Most recently, people are using strided convolutions instead of pooling
+
+    - PyTorch Implementation
+        - Typically, we use blocks: convolutional -> activatoin -> pooling
+        - Generally, height and width decrease but depth increases as we go deeper into the network
+            - Intuitively this means we are extracting more complex features as we go deeper
+            - Eg. first kernel might learn vertical edges, second layer kernel might learn corners etc.
+            - We reduce height/width to reduce computation and enable the network to learn more of the image (semantic)
+        - How do we implement in PyTorch?
+            - self.conv1 = nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0)
+                - kernel_size, stride, and padding can be either int or tuple for non-square kernel_size
+            - self.pool = nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, ceil_mode=False)
+            - example block: x = self.pool(F.relu(self.conv1(x)))
+
+    - Data Augmentation
+        - Techniques to artificially increase the size of the training dataset by creating modified versions of images
+        - Helps to improve the generalization of the model
+        - Common techniques:
+            - Random cropping: randomly crop a region from the image
+            - Horizontal flipping: flip the image horizontally
+            - Rotation: rotate the image by a certain angle
+            - Color jittering: randomly change the brightness, contrast, saturation, and hue of the image
+        - In PyTorch, we can use `torchvision.transforms` to apply these augmentations easily
+
+    - Generalization and depth
+        - As you go deeper, the gradients become weaker and weaker 
+        - GoogLeNet introduced the concept of "Inception" modules to address this
+            - Inception modules allow the network to learn multiple filters of different sizes at the same time
+            - They used 1x1 kernels to reduce the number of channels to 1 before applying larger kernels
+            - This helps to reduce the number of parameters and computation while still allowing the network to learn complex features
+        - ResNet introduced the concept of "Residual Connections" to address the vanishing gradient problem
+            - Residual connections allow the gradients to flow through the network more easily
+            - They add a shortcut connection that skips one or more layers
+            - This helps to train very deep networks (e.g., 100+ layers) without suffering from vanishing gradients
+            - eg. next_activation = activation + layer(activation)
+            - Global average pooling is often used before the final fully connected layer to reduce the spatial dimensions to 1x1
+
+Transfer Learning
+    - Using a pre-trained model on a new task
+        - Pre-trained models are trained on large datasets (e.g., ImageNet) and can be fine-tuned for specific tasks
+        - Fine-tuning involves training the model on a smaller dataset while keeping the pre-trained weights
+        - This helps to leverage the learned features from the pre-trained model and adapt them to the new task
+    - In PyTorch, we can use `torchvision.models` to load pre-trained models easily
+        - Example: `model = torchvision.models.resnet18(pretrained=True)`
+        - We can then modify the final fully connected layer to match the number of classes in our new task
+    - Embedding Example
+        - Suppose we want to mage a web-based image search engine
+        - We can pass all the images we have throuhg a pre-trained model to get the embeddings
+        - We can then use these embeddings to find similar images by calculating the distance between them

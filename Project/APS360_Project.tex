@@ -108,6 +108,25 @@ solutions is easier to implement, as learning to colourize instances is signific
 
 \subsection{Data Processing}
 
+The project's image dataset was compiled using individual datasets from Kaggle.com, an online platform that provides access to real-world datasets and a community for data scientists. To train a model that can generalize to a broader range of images, the final dataset for this project is comprised of three categories: human, animal, and scenic. All datasets chosen have a public domain license.  
+
+The human image dataset was chosen because its original purpose is for human detection \cite[]{kaggle_human}. As a result, the dataset contains a diverse range of 17,300 images of people in different environments. 
+
+The animal image dataset was originally for image classification as it contains 5,400 images of 90 different animals \cite[]{kaggle_animal}. For this project’s purpose, this dataset is ideal as it results in a diverse set of images with an equal distribution of the number of images per animal. 
+
+The scenic image dataset from \cite{kaggle_scene} contains 4,319 images of a variety of landscapes that encompass a large breadth of colour palettes, which can impact how well the final model performs.
+
+All the images from each dataset were extracted from their original folder organizations and relocated into a folder corresponding to their category. Due to the disparity in the size of the three datasets, each dataset was reduced to exactly 4200 images using Python’s “random.sample” function with the seed set to 42. 
+
+The three sets of images were then named and converted to 256 x 256 pixel images using the resize method from PyTorch’s library of transformations. These ground truth images were then transferred into a folder corresponding to their category. Following this, the input images were created by taking the 256 x 256 pixel colour images from each folder and removing the RGB channels to create 256 x 256 pixel grayscale images to feed into the model. 
+
+To create the training, validation and test sets, a ratio of 70:15:15 was chosen. ~write steps 
+
+The final dataset is composed of 12,600 pairs of color and their corresponding grayscale images. Each category (human, animal, and scenic) contains 4,200 image pairs. There are 8,820 pairs in the training set, and the validation and test sets each contain 1,890 image pairs. An even distribution of each category was maintained in the training, validation and test sets. 
+
+~add some graphs and visuals  
+
+
 \subsection{Architecture}
 
 \subsection{Baseline Model}
@@ -133,7 +152,7 @@ refer to this chart to see what responsibilites they can take on and what tasks 
 
 We intend to use Discord as our primiary communication platorm, Google Drive for file sharing (Colab notebooks, datasets, etc.), and GitHub for version control. To ensure we do 
 not overwrite each other's work, we will use branches for each feature or task, and merge them into the main branch once they are complete. We will also have weekly meetings to
-discuss our progress, any issues we are facing, and plan for any action items for the subsequent meeting. Currently, we intend to meet ong Saturday mornings at 8:00 AM EST as some
+discuss our progress, any issues we are facing, and plan for any action items for the subsequent meeting. Currently, we intend to meet on Saturday mornings at 8:00 AM EST as some
 of our team members are in different time zones.
 
 \section{Risk Register}

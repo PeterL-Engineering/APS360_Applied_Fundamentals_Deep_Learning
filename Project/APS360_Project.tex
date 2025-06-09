@@ -22,7 +22,7 @@ Neural Networks and Deep Learning}
 
 %######## APS360: Put your names, student IDs and Emails here
 \author{Youssef Fikry  \\
-Student\# 1005678901\\
+Student\# 1006682626\\
 \texttt{youssef.fikry@mail.utoronto.ca} \\
 \And
 Harkirpa Kaur  \\
@@ -31,7 +31,7 @@ Student\# 1011242479 \\
 \AND
 Peter Leong \\
 Student\# 1005678901 \\
-\texttt{peter.leong.utoronto.ca} \\
+\texttt{peter.leong@mail.utoronto.ca} \\
 \And
 Thulasi Thavarajah \\
 Student\# 10115358424 \\
@@ -126,10 +126,35 @@ The final dataset is composed of 12,600 pairs of color and their corresponding g
 
 ~add some graphs and visuals  
 
+\subsection{Illustration}
+
+\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+  \centering
+  \includegraphics[width=0.9\linewidth]{Figs/architecture.png}
+  \caption{Encoder–decoder colorization network with skip connections.}
+  \label{fig:architecture}
+\end{figure}
+
+The top row is the encoder (Conv ×2 → MaxPool blocks) that downsamples the grayscale L channel from 256×256 to 32×32 while increasing feature depth (64 → 512).
+The bottom row is the decoder (UpConv blocks) that upsamples back to full resolution and predicts the two chroma channels (a, b). Dashed arrows show the three skip connections that pass fine-grained features from encoder to decoder stages.
 
 \subsection{Architecture}
 
+We propose a convolutional encoder–decoder network for the colorization task, which is a common and effective choice for image-to-image translation problems. \cite{leatvanich2025image} The model will operate in the CIE Lab color space: the input is a grayscale image (the L channel), and the network is trained to predict the two chrominance channels (a and b) as output. After prediction, the input L channel and the output a,b channels are combined and converted back to an RGB image for visualization. Using the Lab space decouples intensity from color, which aligns with human vision and generally produces more realistic results than direct RGB prediction. \cite{leatvanich2025image}
+
+The architecture itself is an encoder–decoder CNN resembling a simplified U-Net. The encoder consists of several convolutional layers (with ReLU activations and batch normalization) that gradually downsample the image, extracting higher-level features as the spatial size reduces. For example, we might start with a 3x3 conv layer with 64 filters, followed by another conv layer with 128 filters, each followed by a pooling (or stride-2 conv) to halve the spatial dimensions. After a few such layers, a bottleneck layer (e.g. a 3x3 conv with 256 filters) will capture abstract features of the grayscale input. The decoder then mirrors this process: it uses upsampling layers (e.g. Conv2DTranspose or nearest-neighbor upsampling) and additional conv layers to upsample the feature maps back to the original image resolution while predicting the a,b color channels. We plan to include skip connections between matching encoder and decoder levels (as in U-Net) so that fine-grained details from early layers (edges, textures) are directly passed to the corresponding decoder layers. These skip connections should help the network recover details and prevent blurry outputs by combining low-level and high-level features. \cite{leatvanich2025image}
+
+To balance performance and simplicity, we will leverage transfer learning for the encoder. In particular, we are considering initializing the encoder with a pretrained backbone like the first few layers of ResNet-18 or VGG16 (trained on ImageNet). This gives the model a head-start in recognizing semantic features—useful given our dataset of human and animal images, where recognizing objects like faces, fur, or backgrounds can inform color choices. \cite{olah2022lettherebecolor} Using a pre-trained encoder should enable the network to learn meaningful colorization with fewer training examples and epochs. \cite{olah2022lettherebecolor} The decoder and any additional layers will be initialized randomly and learned from scratch. We will train the network end-to-end to minimize a pixel-wise loss between the predicted and ground-truth color channels (e.g. mean squared error in Lab space).
+
+It’s worth noting that some prior works frame colorization as a classification problem over discrete color bins to better capture the ambiguous nature of predicting color. For instance, Zhang et al. (2016) predict a probability distribution over possible a,b values for each pixel instead of regressing exact values. \cite{olah2022lettherebecolor} While such techniques (often coupled with class re-balancing or perceptual losses) can produce vibrant results, they add complexity beyond the scope of a course project. In our architecture, we favor a straightforward regression approach – the network directly outputs continuous a and b values – which is simpler to implement and sufficient for plausible colorization.
+
 \subsection{Baseline Model}
+
+As a baseline, we will start with a very simple colorization approach against which to compare our full model. One trivial baseline is to output the input grayscale image as-is in color (i.e. replicate the L channel into RGB), which yields a degenerate colorization. This sets a minimum benchmark – any learning model should outperform simply producing a monochrome image.
+
+For a more meaningful baseline, we will implement a shallow convolutional network inspired by basic encoder–decoder examples. \cite{leatvanich2025image} This baseline model will take the grayscale L channel as input and produce a,b chrominance channels, but it will have only a small fraction of the capacity of our main architecture. For instance, the baseline could use just two convolutional layers for encoding (e.g. 64 filters and 128 filters) followed by a single upsampling decoder to reconstruct the output colors. Concretely, the image might pass through Conv2D(64) and Conv2D(128) layers (with ReLU), then a pooling layer to downsample; at that point a minimal “bottleneck” conv layer can be applied, and finally an upsampling (Conv2DTranspose) step generates the 2-channel output map. \cite{leatvanich2025image} This simplistic model does not incorporate any skip connections or pretrained knowledge, and it has far fewer parameters than the proposed full model. We expect its predictions will capture only basic correlations (for example, mapping lightness to a bland average color) and often look desaturated or unrealistic. \cite{rosebrock2019bwcolorization}
+
+Such a baseline provides a useful point of comparison: it represents what a rudimentary learning method can achieve without much capacity or context. By evaluating our advanced model against this baseline, we can quantify the gains from using a deeper architecture and more sophisticated design. If the baseline’s output is dull or mostly grayish (as often seen in naive colorization attempts), whereas our full model produces more vibrant and context-appropriate colors, it will demonstrate the effectiveness of the chosen architecture. \cite{rosebrock2019bwcolorization}
 
 \section{Ethical Considerations}
 \label{ethical}

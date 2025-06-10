@@ -1,14 +1,15 @@
 # Fdb version 4
-["bibtex APS360_Project"] 1749576881.21325 "APS360_Project.aux" "APS360_Project.bbl" "APS360_Project" 1749576973.14962 2
-  "APS360_Project.aux" 1749576882.45749 3811 910b26a5b5d22a0ea01fdb3b3c82b089 "pdflatex"
-  "APS360_ref.bib" 1749574489.68035 9551 96fd4081a6b354a7b1ebd0845ce38435 ""
+["bibtex APS360_Project"] 1749577378.35652 "APS360_Project.aux" "APS360_Project.bbl" "APS360_Project" 1749577378.45943 2
+  "APS360_Project.aux" 1749577354.84576 4858 269d43074dd99d3a93b2ddf8a0da031c "pdflatex"
+  "APS360_ref.bib" 1749577337.70521 9559 d143569893b55f7e7fe411929c90a1f6 ""
   "iclr2022_conference.bst" 1748806488.98607 26973 aa1df73f8afb5963eb2fc74f4c7630c1 ""
   (generated)
   "APS360_Project.bbl"
   "APS360_Project.blg"
   (rewritten before read)
-["pdflatex"] 1749576973.07493 "/Users/thulasi/Documents/GitHub/APS_360/Project/APS360_Project.tex" "APS360_Project.pdf" "APS360_Project" 1749576973.14969 2
-  "/Users/thulasi/Documents/GitHub/APS_360/Project/APS360_Project.tex" 1749576972.80493 11463 b37f3fb891466a195929ce3c40514db0 ""
+["pdflatex"] 1749577378.38625 "/Users/thulasi/Documents/GitHub/APS_360/Project/APS360_Project.tex" "APS360_Project.pdf" "APS360_Project" 1749577378.45951 2
+  "/Users/thulasi/Documents/GitHub/APS_360/Project/APS360_Project.tex" 1749577378.05771 17879 36d8dfdd9e0050924b71d0afc15667c8 ""
+  "/usr/local/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb" 1215737283 138258 6525c253f16cededa14c7fd0da7f67b2 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb" 1136849748 45758 19968a0990191524e34e1994d4a31cb6 ""
   "/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1461363279 71627 94eb9990bed73c364d7f53f960cc8c5b ""
   "/usr/local/texlive/2025/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty" 1576625341 40635 c40361e206be584d448876bba8a64a3b ""
@@ -58,15 +59,17 @@
   "/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pcr.fd" 1137110629 985 1ed784d7bfe47179f3550d2303b073f8 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1ptm.fd" 1137110629 961 15056f4a61917ceed3a44e4ac11fcc52 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/times.sty" 1586716065 856 8e0e5c8cca7b18e0400f97f5a2b90a99 ""
+  "/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd" 1137110629 619 96f56dc5d1ef1fe1121f1cfeec70ee0c ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/refcount/refcount.sty" 1576624809 9878 9e94e8fa600d95f9c7731bb21dfb67a4 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657483315 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/tools/bm.sty" 1717359999 13236 1aba485b47e3c79a47dc0906cc971820 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/url/url.sty" 1388531844 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "/usr/local/texlive/2025/texmf-dist/tex/latex/xcolor/xcolor.sty" 1727642399 55384 b454dec21c2d9f45ec0b793f0995b992 ""
-  "APS360_Project.aux" 1749576882.45749 3811 910b26a5b5d22a0ea01fdb3b3c82b089 "pdflatex"
+  "APS360_Project.aux" 1749577354.84576 4858 269d43074dd99d3a93b2ddf8a0da031c "pdflatex"
   "APS360_Project.bbl" 1749575432.69641 4240 10da9b1dcd935acff4fbdf9e60901d78 "bibtex APS360_Project"
-  "APS360_Project.out" 1749576882.45836 2128 ab3db21fbbbc487e3ca34a807957a7e3 "pdflatex"
-  "APS360_Project.tex" 1749576972.80493 11463 b37f3fb891466a195929ce3c40514db0 ""
+  "APS360_Project.out" 1749577354.84656 2779 53b378a3ebfdb815ace9d71569bf7e76 "pdflatex"
+  "APS360_Project.tex" 1749577378.05771 17879 36d8dfdd9e0050924b71d0afc15667c8 ""
+  "Figs/architecture.png" 1749574489.68279 186986 c1280987d13a1b20e561d57722513209 ""
   "Figs/gant-chart-full.jpg" 1749574489.68517 104971 7dd96543ebf51f3808ed054b23b556e6 ""
   "fancyhdr.sty" 1748806488.98578 20521 e5d13d98d57bd53d4fed3aa61bd29c86 ""
   "iclr2022_conference.sty" 1748806488.98675 9167 4f484121d9ee5c46ae7b712b095a6d14 ""

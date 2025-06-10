@@ -108,6 +108,32 @@ solutions is easier to implement, as learning to colourize instances is signific
 
 \subsection{Data Processing}
 
+ The project's image dataset was compiled using individual datasets from Kaggle.com, an online platform that provides access to real-world datasets and a community for data scientists. To train a model that can generalize to a broader range of images, the final dataset for this project is comprised of three categories: human, animal, and scenic. All datasets chosen have a public domain license. 
+
+ \subsubsection{Repurposing Online Datasets}
+
+The  image dataset was chosen because its original purpose is for human detection \cite[]{kaggle_human}. As a result, the dataset contains a diverse range of 17,300 images of people in different environments. 
+
+The animal image dataset was originally for image classification as it contains 5,400 images of 90 different animals \cite[]{kaggle_animal}. For this project’s purpose, this dataset is ideal as it results in a diverse set of images with an equal distribution of the number of images per animal. 
+
+The scenic image dataset from \cite{kaggle_scene} contains 4,319 images of a variety of landscapes that encompass a large breadth of colour palettes, which can impact how well the final model performs.
+
+\subsubsection{Cleaning Up The Datasets}
+All the images from each dataset were extracted from their original folder organizations and relocated into a folder corresponding to their category. Due to the disparity in the size of the three datasets, each dataset was reduced to exactly 4200 images using Python’s \verb|random.sample| function with the seed set to 42. The images were then renamed in accordance to their respective categories (ex. human\_0001.jpg). 
+
+\subsubsection{Formatting the Data}
+
+This project requires a unique dataset with black and white images, along with their coloured counterparts. To format the cleaned up data and create this dataset, PyTorch’s \verb|torchvision.transforms| library was utiltized. The three sets of images were converted to 256 x 256 pixel ground truth images using the \verb|Resize| transform and then transferred into a folder corresponding to their category. Following this, \verb|Grayscale|
+ transform with a output channel of 1 was used to convert the 256 x 256 pixel colour images to 256 x 256 pixel grayscale images to feed into the model. 
+
+ \subsubsection{Splitting Dataset Into Training, Validation and Test Sets}
+
+To create the training, validation and test sets, a ratio of 70:15:15 was chosen. ~write steps 
+
+\subsubsection{The Final Dataset}
+
+The final dataset is composed of 12,600 pairs of color and their corresponding grayscale images. Each category (human, animal, and scenic) contains 4,200 image pairs. There are 8,820 pairs in the training set, and the validation and test sets each contain 1,890 image pairs. An even distribution of each category was maintained in the training, validation and test sets.  
+
 \subsection{Architecture}
 
 \subsection{Baseline Model}

@@ -132,7 +132,7 @@ To create the training, validation and test sets, a ratio of 70:15:15 was chosen
 
 \subsubsection{The Final Dataset}
 
-The final dataset is composed of 12,600 pairs of color and their corresponding grayscale images. Each category (human, animal, and scenic) contains 4,200 image pairs. There are 8,820 pairs in the training set, and the validation and test sets each contain 1,890 image pairs. An even distribution of each category was maintained in the training, validation and test sets. 
+The final dataset is composed of 12,600 pairs of color and their corresponding grayscale images. Each category (human, animal, and scenic) contains 4,200 image pairs. There are 8,820 pairs in the training set, and the validation and test sets each contain 1,890 image pairs. An even distribution of each category was maintained in the training, validation and test sets. \cite{olah2022lettherebecolor}
 
 \subsection{Illustration}
 
@@ -158,7 +158,7 @@ It’s worth noting that some prior works frame colorization as a classification
 
 \subsection{Baseline Model}
 
-As a baseline, we will start with a very simple colorization approach against which to compare our full model. One trivial baseline is to output the input grayscale image as-is in color (i.e. replicate the L channel into RGB), which yields a degenerate colorization. This sets a minimum benchmark – any learning model should outperform simply producing a monochrome image.Add commentMore actions
+As a baseline, we will start with a very simple colorization approach against which to compare our full model. One trivial baseline is to output the input grayscale image as-is in color (i.e. replicate the L channel into RGB), which yields a degenerate colorization. This sets a minimum benchmark – any learning model should outperform simply producing a monochrome image.
 
 For a more meaningful baseline, we will implement a shallow convolutional network inspired by basic encoder–decoder examples. \cite{leatvanich2025image} This baseline model will take the grayscale L channel as input and produce a,b chrominance channels, but it will have only a small fraction of the capacity of our main architecture. For instance, the baseline could use just two convolutional layers for encoding (e.g. 64 filters and 128 filters) followed by a single upsampling decoder to reconstruct the output colors. Concretely, the image might pass through Conv2D(64) and Conv2D(128) layers (with ReLU), then a pooling layer to downsample; at that point a minimal “bottleneck” conv layer can be applied, and finally an upsampling (Conv2DTranspose) step generates the 2-channel output map. \cite{leatvanich2025image} This simplistic model does not incorporate any skip connections or pretrained knowledge, and it has far fewer parameters than the proposed full model. We expect its predictions will capture only basic correlations (for example, mapping lightness to a bland average color) and often look desaturated or unrealistic. \cite{rosebrock2019bwcolorization}
 

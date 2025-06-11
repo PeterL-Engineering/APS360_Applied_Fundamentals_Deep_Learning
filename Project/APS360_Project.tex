@@ -27,7 +27,7 @@ Student\# 1005678901\\
 \And
 Harkirpa Kaur  \\
 Student\# 1011242479 \\
-\texttt{  harkirpa.kaur@mail.utoronto.ca} \\
+\texttt{harkirpa.kaur@mail.utoronto.ca} \\
 \AND
 Peter Leong \\
 Student\# 1005678901 \\
@@ -58,16 +58,19 @@ Student\# 10115358424 \\
 \maketitle
 
 \begin{abstract}
-This template should be used for all your project related reports in APS360 course. -- Write an abstract for your project here. Please review the \textbf{ First Course Tutorial} for a quick start
+This proposal explores automatic image colorization of 256x256 grayscale images using a dataset of 12,600 image pairs balanced across human subjects, animals, and natural scenery. 
+The task is approached as a supervised learning problem in the CIELAB color space, where the model predicts the chrominance channels given the luminance input. A shallow convolutional 
+neural network (CNN) serves as the baseline architecture to establish initial performance. The primary proposed solution is a deeper convolutional encoder-decoder network designed to 
+capture higher-level semantic features and spatial context, enabling more accurate and perceptually realistic colorizations. Our Google Drive containing all source code and datasets 
+can be found \href{https://drive.google.com/drive/folders/1cV1NhlQ8UTk_CgJdwhqeRu0z5xE85ZsI?usp=sharing}{here}.
 %######## APS360: Do not change the next line. This shows your Main body page count.
 ----Total Pages: \pageref{last_page}
 \end{abstract}
 
 
-
 \section{Introduction}
 
-While the colour photography processes first emerged in the 1890s, colour photography did not become widely accessible until the 1970s \cite{scienceandmediamuseum2020}. As a result, 
+While colour photography processes first emerged in the 1890s, colour photography did not become widely accessible until the 1970s \cite{scienceandmediamuseum2020}. As a result, 
 most historic photographs are black and white and lack the visual richness that modern viewers are accustomed to. In addition, individuals who have their cataracts 
 removed as a part of vision restoration processes have shown to struggle with identifying objects in black and white images \cite{vogelsang2024impact}, making most historic photographs 
 inaccessible to them. This project aims to use deep learning to automatically colorize black and white images, with the goal of restoring visual information and 
@@ -200,21 +203,40 @@ of our team members are in different time zones.
 \section{Risk Register}
 \label{risk_register}
 
+This section outlines potential risks that may impact the progress or quality of the project, along with corresponding mitigation 
+strategies. Identifying these risks early allows the team to plan contingencies and maintain project momentum even in the face 
+of unforeseen challenges.
+
 \subsection{Team Member(s) Drop Course}
+If a team member drops the course or is unable to contribute due to illness or other unforeseen circumstances—especially close to a major 
+deadline—we will revisit the Gantt chart to reallocate their tasks evenly among the remaining team members 
+based on individual availability and strengths. Where necessary, we will reduce the scope of non-critical tasks to ensure that 
+core deliverables are still completed on time. Regular check-ins and shared documentation will help ensure continuity.
 
 \subsection{Model Training Taking Longer Than Expected}
+Training time may exceed expectations due to hardware limitations, unexpected model complexity, or hyperparameter tuning. 
+To mitigate this, we will build buffer time into our schedule to accommodate longer training runs. We will also regularly 
+checkpoint models and keep logs for easy resumption. If training remains infeasible, we will simplify the architecture or 
+reduce the dataset size without compromising class diversity, or shift to using cloud resources like Google Colab Pro if needed.
 
 \subsection{Model Overfits to Stereotypical Colors}
+Our model may learn biases from the dataset, such as assuming all skies are blue or all humans have certain skin tones. 
+To mitigate this, we will include a validation set with diverse examples, use data augmentation (e.g., color jitter, flipping), 
+and regularly evaluate qualitative outputs—especially for edge cases. We will also explore loss terms or regularization 
+strategies that discourage overconfident predictions. If overfitting persists, we may rebalance the dataset or adjust the 
+loss function to reduce dependence on prior color distributions.
 
 \label{last_page}
 
+\newpage
 \bibliographystyle{iclr2022_conference}
 \bibliography{APS360_ref}
 
+\newpage
 \section{Appendix A: Gantt Chart}
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.58\linewidth]{Figs/gant-chart-full.jpg}
+  \includegraphics[width=0.55\linewidth]{Figs/gant-chart-full.jpg}
   \label{fig:gantt_chart}
 \end{figure}
 \end{document}

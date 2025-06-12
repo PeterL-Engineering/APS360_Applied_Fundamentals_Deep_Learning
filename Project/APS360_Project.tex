@@ -12,6 +12,8 @@
 \newcommand{\gpnumber}{40}
 
 \usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
 \usepackage{url}
 \usepackage{graphicx}
 
@@ -61,7 +63,7 @@ This proposal explores automatic image colourization of 256x256 grayscale images
 The task is approached as a supervised learning problem in the CIELAB colour space, where the model predicts the chrominance channels given the luminance input. A shallow convolutional 
 neural network (CNN) serves as the baseline architecture to establish initial performance. The primary proposed solution is a deeper convolutional encoder-decoder network designed to 
 capture higher-level semantic features and spatial context, enabling more accurate and perceptually realistic colourizations. Our Google Drive containing all source code and datasets 
-can be found \href{https://drive.google.com/drive/folders/1cV1NhlQ8UTk_CgJdwhqeRu0z5xE85ZsI?usp=sharing}{here}.
+can be found \href{https://drive.google.com/drive/folders/1cV1NhlQ8UTk_CgJdwhqeRu0z5xE85ZsI?usp=sharing}{\textcolor{blue}{\uline{here}}}.
 %######## APS360: Do not change the next line. This shows your Main body page count.
 ----Total Pages: \pageref{last_page}
 \end{abstract}

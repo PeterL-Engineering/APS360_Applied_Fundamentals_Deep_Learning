@@ -90,7 +90,7 @@ neural networks \cite{zeger2021grayscale}.
 
 Simple colourization neural networks use feedforward CNNs to map grayscale inputs to colour outputs. One of the foremost solutions proposed by 
 \citet{zhang2016colorful} used a fully convolutional network to predict the a and b channels of the CIELAB colour space from grayscale images. Their 
-architecture is composed of several convulational layers, each followed by a ReLU activation function and a batch normailization layer.
+architecture is composed of several convulational layers, each followed by a ReLU activation function and a batch normalization layer.
 
 User-guided colourization neural networks utilize user input to guide the colourization process. One such solution uses a
 fully convolutional network to predict the a and b channels of the CIELAB colour space from grayscale images, but also takes user input in the form of
@@ -112,7 +112,10 @@ solutions is easier to implement, as learning to colourize instances is signific
 \section{Methodology}
 \label{methodology}
 
-This section outlines our data processing pipeline, describes the architecture of the proposed model, and introduces the baseline model used for comparative evaluation.
+This section outlines our methodology for training and evaluating models on a dataset of 256×256 black-and-white images paired with their colour counterparts, 
+comprising an even distribution of humans, animals, and natural scenery. We first detail the data preprocessing steps, followed by a description of our proposed 
+encoder-decoder convolutional neural network architecture, which draws inspiration from a simplified U-Net design. A shallower CNN is introduced as the baseline model 
+to enable comparative analysis of performance and colourization fidelity.
 
 \subsection{Data Processing}
 

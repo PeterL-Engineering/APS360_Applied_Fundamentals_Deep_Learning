@@ -1,7 +1,5 @@
-\PassOptionsToPackage{numbers,sort&compress}{natbib}
 \documentclass{article} % For LaTeX2e
 \usepackage{iclr2022_conference,times}
-\setcitestyle{numbers,square}
 % Optional math commands from https://github.com/goodfeli/dlbook_notation.
 \input{math_commands.tex}
 
@@ -73,20 +71,20 @@ can be found \href{https://drive.google.com/drive/folders/1cV1NhlQ8UTk_CgJdwhqeR
 
 \section{Introduction}
 
-While colour photography processes first emerged in the 1890s, colour photography did not become widely accessible until the 1970s \cite{scienceandmediamuseum2020}. As a result, 
+While colour photography processes first emerged in the 1890s, colour photography did not become widely accessible until the 1970s \citep{scienceandmediamuseum2020}. As a result, 
 most historic photographs are black and white and lack the visual richness that modern viewers are accustomed to. In addition, individuals who have their cataracts 
-removed as a part of vision restoration processes have shown to struggle with identifying objects in grayscale images \cite{vogelsang2024impact}, making most historic photographs 
+removed as a part of vision restoration processes have shown to struggle with identifying objects in grayscale images \citet{vogelsang2024impact}, making most historic photographs 
 inaccessible to them. This project aims to use deep learning to automatically colourize black and white images, with the goal of restoring visual information and 
 making historical imagery more accessible for all audiences. Traditional, non deep-learning based colourization methods often produce desaturated results and rely 
-heavily on human guidance, making them non-scalable \cite{cheng2016deepcolorization}. Conversely, deep networks such as CNNs effectively capture spatial and semantic features and produce 
-realistic colourized images without user interaction, making deep learning an ideal approach for image colourization \cite{zhang2016colorful}.
+heavily on human guidance, making them non-scalable \citep{cheng2016deepcolorization}. Conversely, deep networks such as CNNs effectively capture spatial and semantic features and produce 
+realistic colourized images without user interaction, making deep learning an ideal approach for image colourization \citep{zhang2016colorful}.
 
 \subsection{Background \& Related Work}
 
 The challenge of image colourization has been approached in a wide variety of ways. Even within solutions involving deep learning
 techniques, there are numerous unique design choices. One grouping method results in five categories: simple colourization neural networks,
 user-guided colourization neural networks, diverse colourization neural networks, multi-path colourization neural networks, and exemplar-based
-neural networks \cite{zeger2021grayscale}. 
+neural networks \citep{zeger2021grayscale}. 
 
 Simple colourization neural networks use feedforward CNNs to map grayscale inputs to colour outputs. One of the foremost solutions proposed by 
 \citet{zhang2016colorful} used a fully convolutional network to predict the a and b channels of the CIELAB colour space from grayscale images. Their 
@@ -94,11 +92,11 @@ architecture is composed of several convulational layers, each followed by a ReL
 
 User-guided colourization neural networks utilize user input to guide the colourization process. One such solution uses a
 fully convolutional network to predict the a and b channels of the CIELAB colour space from grayscale images, but also takes user input in the form of
-user-provided colour scribbles \cite{zhang2017real}. The network is trained to minimize the difference between the predicted and user-provided colours, allowing it to
+user-provided colour scribbles \citep{zhang2017real}. The network is trained to minimize the difference between the predicted and user-provided colours, allowing it to
 learn to colourize images in a way that is consistent with the user's input. 
 
 Diverse colourization networks produce multiple colourization outputs for a given grayscale input. One such solution uses
-a generative adversarial network (GAN) to produce multiple colourization outputs for a given grayscale input \cite{Vitoria2020ChromaGAN}. The GAN is trained to minimize the difference
+a generative adversarial network (GAN) to produce multiple colourization outputs for a given grayscale input \citep{Vitoria2020ChromaGAN}. The GAN is trained to minimize the difference
 between the predicted and ground truth colours, allowing it to learn to produce diverse colourization outputs. 
 
 Multi-path colourization neural networks differentiate features at different scales. \citet{Iizuka2016Colourization} proposed a multi-path
@@ -119,11 +117,11 @@ to enable comparative analysis of performance and colourization fidelity.
 
 \subsection{Data Processing}
 
- The project's image dataset was compiled using publicly available datasets on Kaggle.com, an online platform that provides access to real-world datasets and a community for data scientists \cite[]{kaggle}. To train a model that can generalize to a broad range of images, the final dataset for this project includes three categories: human, animal, and scenic. All selected datasets are licensed for public domain use. 
+ The project's image dataset was compiled using publicly available datasets on Kaggle.com, an online platform that provides access to real-world datasets and a community for data scientists \citep[]{kaggle}. To train a model that can generalize to a broad range of images, the final dataset for this project includes three categories: human, animal, and scenic. All selected datasets are licensed for public domain use. 
 
  \subsubsection{Repurposing Online Datasets}
 
-The human image dataset, originally intended for human detection, contains a diverse range of 17,300 images of people in different environments \cite[]{kaggle_human}. Furthermore, the animal image dataset, initially developed for image classification contains 5,400 images of 90 different animals \cite[]{kaggle_animal}. For this project’s purpose, this dataset is ideal as it encompasses a diverse set of images with an equal distribution of each animal. Additionally, the scenic image dataset from \citet{kaggle_scene} contains 4,319 images of a variety of landscapes spanning a large breadth of colour palettes, potentially influencing the robustness of the final model.
+The human image dataset, originally intended for human detection, contains a diverse range of 17,300 images of people in different environments \citep[]{kaggle_human}. Furthermore, the animal image dataset, initially developed for image classification contains 5,400 images of 90 different animals \citep[]{kaggle_animal}. For this project’s purpose, this dataset is ideal as it encompasses a diverse set of images with an equal distribution of each animal. Additionally, the scenic image dataset from \citet{kaggle_scene} contains 4,319 images of a variety of landscapes spanning a large breadth of colour palettes, potentially influencing the robustness of the final model.
 
 \subsubsection{Cleaning Up The Datasets}
 The team extracted all the images from each dataset and relocated them into folders corresponding to their category (human/animal/scenic). Due to the disparity in the size of the three datasets, each dataset was reduced to exactly 4200 images using Python’s \verb|random.sample| function with the seed set to 42. The images were then renamed in accordance to their respective categories (ex. human\_0001.jpg). 
@@ -168,21 +166,21 @@ The bottom row is the decoder (UpConv blocks) that upsamples back to full resolu
 
 \subsection{Architecture}
 
-We propose a convolutional encoder–decoder network for the colourization task, which is a common and effective choice for image-to-image translation problems \cite{leatvanich2025image}. The model will operate in the CIE Lab colour space: the input is a grayscale image (the L channel), and the network is trained to predict the two chrominance channels (a and b) as output. After prediction, the input L channel and the output a,b channels are combined and converted back to an RGB image for visualization. Using the Lab space decouples intensity from colour, which aligns with human vision and generally produces more realistic results than direct RGB prediction \cite{leatvanich2025image}.
+We propose a convolutional encoder–decoder network for the colourization task, which is a common and effective choice for image-to-image translation problems \citep{leatvanich2025image}. The model will operate in the CIE Lab colour space: the input is a grayscale image (the L channel), and the network is trained to predict the two chrominance channels (a and b) as output. After prediction, the input L channel and the output a,b channels are combined and converted back to an RGB image for visualization. Using the Lab space decouples intensity from colour, which aligns with human vision and generally produces more realistic results than direct RGB prediction \citep{leatvanich2025image}.
 
 The architecture itself is an encoder–decoder CNN resembling a simplified U-Net. The encoder consists of several convolutional layers (with ReLU activations and batch normalization) that gradually downsample the image, extracting higher-level features as the spatial size reduces. For example, we might start with a 3x3 conv layer with 64 filters, followed by another conv layer with 128 filters, each followed by a pooling (or stride-2 conv) to halve the spatial dimensions. After a few such layers, a bottleneck layer (e.g. a 3x3 conv with 256 filters) will capture abstract features of the grayscale input. The decoder then mirrors this process: it uses upsampling layers (e.g. Conv2DTranspose or nearest-neighbor upsampling) and additional conv layers to upsample the feature maps back to the original image resolution while predicting the a,b colour channels. We plan to include skip connections between matching encoder and decoder levels (as in U-Net) so that fine-grained details from early layers (edges, textures) are directly passed to the corresponding decoder layers. These skip connections should help the network recover details and prevent blurry outputs by combining low-level and high-level features \cite{leatvanich2025image}.
 
-To balance performance and simplicity, we will leverage transfer learning for the encoder. In particular, we are considering initializing the encoder with a pretrained backbone like the first few layers of ResNet-18 or VGG16 (trained on ImageNet). This gives the model a head-start in recognizing semantic features—useful given our dataset of human and animal images, where recognizing objects like faces, fur, or backgrounds can inform colour choices \cite{olah2022lettherebecolor}. Using a pre-trained encoder should enable the network to learn meaningful colourization with fewer training examples and epochs \cite{olah2022lettherebecolor}. The decoder and any additional layers will be initialized randomly and learned from scratch. We will train the network end-to-end to minimize a pixel-wise loss between the predicted and ground-truth colour channels (e.g. mean squared error in Lab space).
+To balance performance and simplicity, we will leverage transfer learning for the encoder. In particular, we are considering initializing the encoder with a pretrained backbone like the first few layers of ResNet-18 or VGG16 (trained on ImageNet). This gives the model a head-start in recognizing semantic features—useful given our dataset of human and animal images, where recognizing objects like faces, fur, or backgrounds can inform colour choices \citep{olah2022lettherebecolor}. Using a pre-trained encoder should enable the network to learn meaningful colourization with fewer training examples and epochs \citep{olah2022lettherebecolor}. The decoder and any additional layers will be initialized randomly and learned from scratch. We will train the network end-to-end to minimize a pixel-wise loss between the predicted and ground-truth colour channels (e.g. mean squared error in Lab space).
 
-It’s worth noting that some prior works frame colourization as a classification problem over discrete colour bins to better capture the ambiguous nature of predicting colour. For instance, Zhang et al. (2016) predict a probability distribution over possible a,b values for each pixel instead of regressing exact values \cite{olah2022lettherebecolor}. While such techniques (often coupled with class re-balancing or perceptual losses) can produce vibrant results, they add complexity beyond the scope of a course project. In our architecture, we favor a straightforward regression approach – the network directly outputs continuous a and b values – which is simpler to implement and sufficient for plausible colourization.
+It’s worth noting that some prior works frame colourization as a classification problem over discrete colour bins to better capture the ambiguous nature of predicting colour. For instance, Zhang et al. (2016) predict a probability distribution over possible a,b values for each pixel instead of regressing exact values \citep{olah2022lettherebecolor}. While such techniques (often coupled with class re-balancing or perceptual losses) can produce vibrant results, they add complexity beyond the scope of a course project. In our architecture, we favor a straightforward regression approach – the network directly outputs continuous a and b values – which is simpler to implement and sufficient for plausible colourization.
 
 \subsection{Baseline Model}
 
 As a baseline, we will start with a very simple colourization approach against which to compare our full model. One trivial baseline is to output the input grayscale image as-is in colour (i.e. replicate the L channel into RGB), which yields a degenerate colourization. This sets a minimum benchmark – any learning model should outperform simply producing a monochrome image.
 
-For a more meaningful baseline, we will implement a shallow convolutional network inspired by basic encoder–decoder examples \cite{leatvanich2025image}. This baseline model will take the grayscale L channel as input and produce a,b chrominance channels, but it will have only a small fraction of the capacity of our main architecture. For instance, the baseline could use just two convolutional layers for encoding (e.g. 64 filters and 128 filters) followed by a single upsampling decoder to reconstruct the output colours. Concretely, the image might pass through Conv2D(64) and Conv2D(128) layers (with ReLU), then a pooling layer to downsample; at that point a minimal “bottleneck” conv layer can be applied, and finally an upsampling (Conv2DTranspose) step generates the 2-channel output map \cite{leatvanich2025image}. This simplistic model does not incorporate any skip connections or pretrained knowledge, and it has far fewer parameters than the proposed full model. We expect its predictions will capture only basic correlations (for example, mapping lightness to a bland average colour) and often look desaturated or unrealistic \cite{rosebrock2019bwcolorization}.
+For a more meaningful baseline, we will implement a shallow convolutional network inspired by basic encoder–decoder examples \citep{leatvanich2025image}. This baseline model will take the grayscale L channel as input and produce a,b chrominance channels, but it will have only a small fraction of the capacity of our main architecture. For instance, the baseline could use just two convolutional layers for encoding (e.g. 64 filters and 128 filters) followed by a single upsampling decoder to reconstruct the output colours. Concretely, the image might pass through Conv2D(64) and Conv2D(128) layers (with ReLU), then a pooling layer to downsample; at that point a minimal “bottleneck” conv layer can be applied, and finally an upsampling (Conv2DTranspose) step generates the 2-channel output map \citep{leatvanich2025image}. This simplistic model does not incorporate any skip connections or pretrained knowledge, and it has far fewer parameters than the proposed full model. We expect its predictions will capture only basic correlations (for example, mapping lightness to a bland average colour) and often look desaturated or unrealistic \citep{rosebrock2019bwcolorization}.
 
-Such a baseline provides a useful point of comparison: it represents what a rudimentary learning method can achieve without much capacity or context. By evaluating our advanced model against this baseline, we can quantify the gains from using a deeper architecture and more sophisticated design. If the baseline’s output is dull or mostly grayish (as often seen in naive colourization attempts), whereas our full model produces more vibrant and context-appropriate colours, it will demonstrate the effectiveness of the chosen architecture \cite{rosebrock2019bwcolorization}.
+Such a baseline provides a useful point of comparison: it represents what a rudimentary learning method can achieve without much capacity or context. By evaluating our advanced model against this baseline, we can quantify the gains from using a deeper architecture and more sophisticated design. If the baseline’s output is dull or mostly grayish (as often seen in naive colourization attempts), whereas our full model produces more vibrant and context-appropriate colours, it will demonstrate the effectiveness of the chosen architecture \citep{rosebrock2019bwcolorization}.
 
 \section{Ethical Considerations}
 \label{ethical}
@@ -237,7 +235,7 @@ loss function to reduce dependence on prior colour distributions.
 \label{last_page}
 
 \newpage
-\bibliographystyle{IEEEtranN}
+\bibliographystyle{iclr2022_conference}
 \bibliography{APS360_Proposal_ref}
 
 \newpage

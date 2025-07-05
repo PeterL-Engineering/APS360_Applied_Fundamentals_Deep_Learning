@@ -43,7 +43,7 @@
         - Encoders learn visual embedding using convolutional layers
         - Decoders up=sample the learned visual embedding using transposed convolutional layers
             - Applying kernel to all pixels in the input image then add overlapping regions in output (instead of sliding the kernel)
-            - Padding is inverse ie. we add zeros to the output instead of the input
+            - Padding is inverse ie. we remove border from output image
             - Output padding is used to ensure that the output size matches the input size
         - Pre-trained Autoencoders
             - Instead of removing classifier, just remove the decoder part of the autoencoder

@@ -59,11 +59,11 @@ Student\# 10115358424 \\
 \maketitle
 
 \begin{abstract}
-This proposal explores automatic image colourization of 256x256 grayscale images using a dataset of 12,600 image pairs balanced across human subjects, animals, and natural scenery. 
-The task is approached as a supervised learning problem in the CIELAB colour space, where the model predicts the chrominance channels given the luminance input. A shallow convolutional 
-neural network (CNN) serves as the baseline architecture to establish initial performance. The primary proposed solution is a deeper convolutional encoder-decoder network designed to 
-capture higher-level semantic features and spatial context, enabling more accurate and perceptually realistic colourizations. Our Google Drive containing all source code and datasets 
-can be found \href{https://drive.google.com/drive/folders/1cV1NhlQ8UTk_CgJdwhqeRu0z5xE85ZsI?usp=sharing}{\textcolor{blue}{\uline{here}}}.
+This project addresses the challenge of automated colourization for 256$\times$256 grayscale images using a dataset of 12,600 image pairs, balanced across human subjects, 
+animals, and natural scenery. We frame colourization as a supervised learning problem in the CIELAB colour space, where a model predicts chrominance channels ($a^*$, $b^*$) 
+from the luminance channel ($L^*$). A shallow convolutional neural network (CNN) provides the baseline performance, while our primary solution employs a deeper convolutional encoder-decoder architecture. This 
+design captures high-level semantic features and spatial context, addressing limitations of shallow networks in perceptual realism. All source code, datasets, and results 
+are publicly available \href{https://drive.google.com/drive/folders/1cV1NhlQ8UTk_CgJdwhqeRu0z5xE85ZsI?usp=sharing}{here}. 
 %######## APS360: Do not change the next line. This shows your Main body page count.
 ----Total Pages: \pageref{last_page}
 \end{abstract}
@@ -71,19 +71,27 @@ can be found \href{https://drive.google.com/drive/folders/1cV1NhlQ8UTk_CgJdwhqeR
 
 \section{Introduction}
 
+While colour photography processes first emerged in the 1890s, widespread accessibility was not achieved until the 1970s \citep{scienceandmediamuseum2020}. Consequently, most historic
+photographs exist only in black and white, lacking the visual richness expected by modern audiences. For individuals with vision impairments---such as those who have undergone cataract 
+surgery---interpreting grayscale images poses significant challenges \citep{vogelsang2024impact}, rendering much of photographic history inaccessible to them. 
 
+This project leverages deep learning to automate the colourization of black-and-white images, with the dual goals of restoring lost visual information and enhancing accessibility. 
+Traditional colourization methods often yield desaturated results and require laborious manual intervention \citep{cheng2016deepcolorization}, whereas convolutional neural networks (CNNs) 
+learn spatial and semantic features to generate realistic colours autonomously \citep{zhang2016colorful}. By automating this process, we aim to make historical imagery more engaging and inclusive.
 
+\section{Inidividual Contributions & Responisbilites}
+
+\section{Notable Contributions}
+
+\subsection{Data Processing}
+
+\subsection{Baseline Model}
+
+\subsection{Primary Model}
 \label{last_page}
 
 \newpage
 \bibliographystyle{iclr2022_conference}
 \bibliography{APS360_Report_ref}
 
-\newpage
-\section{Appendix A: Gantt Chart}
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.55\linewidth]{Figs/gant-chart-full.jpg}
-  \label{fig:gantt_chart}
-\end{figure}
 \end{document}

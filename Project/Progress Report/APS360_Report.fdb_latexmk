@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex APS360_Report"] 1751913788.46443 "APS360_Report.aux" "APS360_Report.bbl" "APS360_Report" 1751913789.50452 0
+["bibtex APS360_Report"] 1751928827.27146 "APS360_Report.aux" "APS360_Report.bbl" "APS360_Report" 1751928836.72003 0
   "./APS360_Report_ref.bib" 1751913768.61299 2281 33dd368f5b9392c5323b63a13f03bc52 ""
   "./iclr2022_conference.bst" 1751904696.75275 26973 aa1df73f8afb5963eb2fc74f4c7630c1 ""
-  "APS360_Report.aux" 1751913789.22537 2582 0b290a378209169da276ae82d60c8849 "pdflatex"
+  "APS360_Report.aux" 1751928836.42646 2675 c12fe5fca8b9329af03721ef38d85960 "pdflatex"
   (generated)
   "APS360_Report.bbl"
   "APS360_Report.blg"
   (rewritten before read)
-["pdflatex"] 1751913788.58316 "/Users/thulasi/Documents/GitHub/APS_360/Project/Progress Report/APS360_Report.tex" "APS360_Report.pdf" "APS360_Report" 1751913789.50491 0
-  "/Users/thulasi/Documents/GitHub/APS_360/Project/Progress Report/APS360_Report.tex" 1751913786.21197 7962 a1ab0b540e09202f786d6d05c1112b0e ""
+["pdflatex"] 1751928835.57302 "/Users/thulasi/Documents/GitHub/APS_360/Project/Progress Report/APS360_Report.tex" "APS360_Report.pdf" "APS360_Report" 1751928836.72042 0
+  "/Users/thulasi/Documents/GitHub/APS_360/Project/Progress Report/APS360_Report.tex" 1751928835.35217 7987 47cb602f716d21c3d2b1cf1448f06a7f ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -115,10 +115,10 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1749471877 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1741450574 3345740 46b66fdb0378f7bf5921b5eabf1762b8 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "APS360_Report.aux" 1751913789.22537 2582 0b290a378209169da276ae82d60c8849 "pdflatex"
-  "APS360_Report.bbl" 1751913788.58031 1983 db5cfd1b89d66424ad904e1db56db4d8 "bibtex APS360_Report"
-  "APS360_Report.out" 1751913789.22662 1809 a2f58456cd46e954fe8a45712cb93026 "pdflatex"
-  "APS360_Report.tex" 1751913786.21197 7962 a1ab0b540e09202f786d6d05c1112b0e ""
+  "APS360_Report.aux" 1751928836.42646 2675 c12fe5fca8b9329af03721ef38d85960 "pdflatex"
+  "APS360_Report.bbl" 1751928827.40853 1983 db5cfd1b89d66424ad904e1db56db4d8 "bibtex APS360_Report"
+  "APS360_Report.out" 1751928836.42766 1931 28c6c830e9bc26141a007d1479a0dee1 "pdflatex"
+  "APS360_Report.tex" 1751928835.35217 7987 47cb602f716d21c3d2b1cf1448f06a7f ""
   "Figs/baseline_output.png" 1751904696.75166 44069 c350aeaa1d522612511cac18c1d8d9f4 ""
   "fancyhdr.sty" 1751904696.75253 20521 e5d13d98d57bd53d4fed3aa61bd29c86 ""
   "iclr2022_conference.sty" 1751904696.75292 9167 4f484121d9ee5c46ae7b712b095a6d14 ""

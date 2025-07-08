@@ -21,7 +21,6 @@
 \title{Image Colourization via Convolutional \\
 Neural Networks and Deep Learning}
 
-
 %######## APS360: Put your names, student IDs and Emails here
 \author{Youssef Fikry  \\
 Student\# 1005678901\\
@@ -79,15 +78,17 @@ Traditional image colorization methods involve manual labour that is costly and 
 
 \section{Individual Contributions \& Responsibilities}
 
+\section{Notable Contribution}
 
+\subsection{Data Processing}
 
-\section{Baseline Model}
+\subsection{Baseline Model}
 
 To establish a performance benchmark for our colorization task, we implemented a shallow convolutional neural network called \texttt{ShallowColorizationNet}. This model uses a simple 
 encoder-bottleneck-decoder architecture and does not incorporate adversarial training. Its purpose is to test the feasibility of learning a direct mapping from grayscale luminance (\textit{L}) 
 input to the chrominance (\textit{ab}) channels in the CIELAB color space.
 
-\subsection{Model Architecture}
+\subsubsection{Model Architecture}
 
 The architecture of the baseline model is as follows:
 \begin{itemize}
@@ -97,12 +98,12 @@ The architecture of the baseline model is as follows:
     activation to constrain values between $[-1, 1]$.
 \end{itemize}
 
-\subsection{Training and Comparison Approach}
+\subsubsection{Training and Comparison Approach}
 
 The baseline model was trained using the L1 loss between predicted and ground truth \textit{ab} channels. This model was compared to our primary neural network—a conditional 
 GAN model that includes a discriminator to encourage more realistic colorizations—based on both quantitative and qualitative results.
 
-\subsection{Quantitative and Qualitative Results}
+\subsubsection{Quantitative and Qualitative Results}
 
 \textbf{Quantitative:} The baseline model was trained for 5 epochs using L1 loss. The generator's loss remained stable around \textbf{1.5647}, while the discriminator's loss 
 converged to approximately \textbf{0.7074}. These consistent values suggest that the baseline network was able to learn a basic mapping from grayscale to chrominance, but likely 
@@ -118,23 +119,19 @@ diversity. See Figure~\ref{fig:baseline_outputs} for representative examples.
     \label{fig:baseline_outputs}
 \end{figure}
 
-\subsection{Challenges}
+\subsubsection{Challenges}
 
 The primary challenge encountered during development was the tendency of the baseline model to learn overly conservative color predictions. Without a discriminator or explicit 
 diversity loss, the network favored colorizations close to the dataset mean. Additionally, selecting the appropriate normalization strategy for LAB space and constraining output to 
 valid chrominance ranges required careful tuning.
 
-\subsection{Feasibility Assessment}
+\subsubsection{Feasibility Assessment}
 
 Despite its simplicity, the baseline model demonstrated that the colorization task is learnable with a low-capacity network, although the outputs lacked the vividness and fidelity 
 achieved by our primary GAN-based model. The baseline thus served its role in confirming the viability of end-to-end colorization from grayscale input and establishing a benchmark 
 for model improvement.
 
-\section{Data Processing}
-
-\section{Baseline Model}
-
-\section{Primary Model}
+\subsection{Primary Model}
 \label{last_page}
 
 \newpage

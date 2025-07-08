@@ -140,6 +140,27 @@ Despite its simplicity, the baseline model demonstrated that the colorization ta
 achieved by our primary GAN-based model. The baseline thus served its role in confirming the viability of end-to-end colorization from grayscale input and establishing a benchmark 
 for model improvement.
 
+\subsection{Primary Model}
+
+Our colouriser combines a lightweight ResNet-18 encoder with a U-Net decoder. This design keeps global scene context (from the pretrained encoder) while preserving fine edges through skip connections, all within a 15 M-parameter budget suitable for Google Colab.
+
+\subsubsection{Architecture}
+
+The encoder copies the first four blocks of ResNet-18, pretrained on ImageNet, but the opening convolution is modified to ingest a single-channel L image. Feature maps are therefore produced at 256×256, 128×128, 64×64 and 32×32.
+A symmetric decoder upsamples in three steps (transpose-conv → 3 × 3 conv × 2, BatchNorm, ReLU). Skip links inject the corresponding encoder features to keep edges crisp. A final 3 × 3 layer with tanh activation outputs the a and b chroma channels. Total capacity is ~15 M parameters, comfortably below Colab’s memory ceiling. The whole network sits under 25 MB on disk, so checkpoints save quickly.
+
+\subsubsection{Training Progress}
+
+We train with AdamW (lr = 3 × $10^{-4}$, batch = 32) on the cleaned 12.6 k-image set, and the learning rate decays each epoch via cosine annealing. Five epochs on a pro A100 GPU took just under 20 minutes. Validation L1 dropped from 0.07 to 0.0064, and SSIM climbed from 0.58 to 0.74. Qualitatively the model recovers plausible sky blues and fur textures that the two-layer baseline could not capture. The model also learns to colorize human skin tones, but it struggles with complex scenes like forests and crowds, where it tends to produce muddy colors.
+
+\subsubsection{Challenges}
+
+On some photos the network over-uses warm hues, giving a slight brown cast. Early inspection shows that brown-dominant scenes are over-represented in the training set and the loss does not penalise colour bias. We plan to rebalance LAB histograms per batch and add a small perceptual term to discourage monotone outputs.
+
+\subsubsection{Feasibility Assessment}
+
+After five epochs the model already lifts SSIM from 0.58 (baseline) to 0.74, showing it can learn credible colour cues. Remaining errors are mostly a warm “brown” bias. Because these mistakes are consistent, modest adjustments should yield clear gains. We plan to (i) rebalance training batches so cool and warm tones appear equally, and (ii) add a light perceptual loss to discourage over-use of one hue. These changes require no extra parameters or memory. With a 20-epoch run and a cosine learning-rate schedule, we expect further improvement toward an SSIM of 0.80 while staying within course limits.
+
 \section{Data Processing}
 
 \section{Baseline Model}

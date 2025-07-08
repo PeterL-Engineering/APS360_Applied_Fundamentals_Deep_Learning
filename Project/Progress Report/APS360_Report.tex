@@ -109,6 +109,15 @@ GAN model that includes a discriminator to encourage more realistic colorization
 converged to approximately \textbf{0.7074}. These consistent values suggest that the baseline network was able to learn a basic mapping from grayscale to chrominance, but likely 
 lacked the capacity or incentive to produce high-fidelity or diverse outputs. These values serve as reference points for evaluating improvements made by our primary GAN-based model.
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{Figs/baseline_learning_curve.jpg}
+    \caption{Generator and discriminator loss values over 5 epochs of training. The architecture will be investigated further during the final phase of the project to determine why 
+    the loss values fluctuate by such small amounts.}
+
+    \label{fig:baseline_outputs}
+\end{figure}
+
 \textbf{Qualitative:} The baseline model produced smooth but somewhat desaturated colorizations. It tended to predict average colors in ambiguous regions, resulting in low color 
 diversity. See Figure~\ref{fig:baseline_outputs} for representative examples.
 
@@ -131,7 +140,11 @@ Despite its simplicity, the baseline model demonstrated that the colorization ta
 achieved by our primary GAN-based model. The baseline thus served its role in confirming the viability of end-to-end colorization from grayscale input and establishing a benchmark 
 for model improvement.
 
-\subsection{Primary Model}
+\section{Data Processing}
+
+\section{Baseline Model}
+
+\section{Primary Model}
 \label{last_page}
 
 \newpage

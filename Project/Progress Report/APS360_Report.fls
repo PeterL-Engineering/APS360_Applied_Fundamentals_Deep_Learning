@@ -199,6 +199,11 @@ INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmr8c.tfm
+INPUT ./Figs/baseline_learning_curve.jpg
+INPUT ./Figs/baseline_learning_curve.jpg
+INPUT ./Figs/baseline_learning_curve.jpg
+INPUT ./Figs/baseline_learning_curve.jpg
+INPUT ./Figs/baseline_learning_curve.jpg
 INPUT ./Figs/baseline_output.png
 INPUT ./Figs/baseline_output.png
 INPUT ./Figs/baseline_output.png

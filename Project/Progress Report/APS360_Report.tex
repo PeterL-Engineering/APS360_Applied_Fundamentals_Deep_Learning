@@ -72,9 +72,14 @@ are publicly available \href{https://drive.google.com/drive/folders/1cV1NhlQ8UTk
 
 The invention of photography provided the technology to capture a moment in time. However, for most of photographic history, the process of obtaining coloured images eluded photographers \citep{scienceandmediamuseum2020}. As a result, much of historic photography is grayscale; lacking the visual richness found in modern photography and is inaccessible to individuals with vision impairments \citep{vogelsang2024impact}. This project aims to leverage deep learning to automate the colorization of grayscale images, thereby aiding in the revitalization of grayscale photographs. Furthermore, image colorization technology assists archivists and museums in restoring lost visual information and has applications in the media, medical and geospatial industries. 
 
-Traditional image colorization methods involve manual labour that is costly and time-consuming \citep{farella2022}. On the other hand, deep learning approaches automate the colorization process and supplant traditional techniques \citep{farella2022}. In machine learning, colorization is defined as a model taking a black-and-white image as an input, and outputting its coloured counterpart \citep{lettherebecolor}. From a machine learning perspective, deep convolutional neural networks are best suited for this task as they can extract and learn features such as colors, patterns and shapes in images and affiliate them with object classes \citep{deepcnn}. These characteristics aid CNNs in excelling at object classificition tasks, as well as image colorization \citep{deepcnn}. 
+Traditional image colorization methods involve manual labour that is costly and time-consuming \citep{farella2022}. On the other hand, deep learning approaches automate the colorization process and supplant traditional techniques \citep{farella2022}. In machine learning, colorization is defined as a model taking a black-and-white image as an input (see Figure 1), and outputting its coloured counterpart \citep{lettherebecolor}. From a machine learning perspective, deep convolutional neural networks are best suited for this task as they can extract and learn features such as colors, patterns and shapes in images and affiliate them with object classes \citep{deepcnn}. These characteristics aid CNNs in excelling at object classification tasks, as well as image colorization \citep{deepcnn}. 
 
-//insert image here. 
+\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+  \centering
+  \includegraphics[width=0.99\linewidth]{Figs/final-model-example.png}
+  \caption{Example Input, Output and Ground Truth From Primary Model}
+  \label{fig:final-model}
+\end{figure}
 
 \section{Individual Contributions \& Responsibilities}
 
@@ -82,18 +87,30 @@ Traditional image colorization methods involve manual labour that is costly and 
 
 \subsection{Data Processing}
 
- The team compiled the project's image dataset using Kaggle.com, an online platform that provides access to publicly available, real-world datasets and a community for data scientists \citep[]{kaggle}. The final dataset for this project has three classes: human, animal, and scenic.  To train a model that can generalize to a broad range of images, the final dataset for this project includes three categories:. All selected datasets are licensed for public domain use. 
+ The team compiled the project's image dataset using Kaggle.com, an online platform that provides access to publicly available, real-world datasets and a community for data scientists \citep[]{kaggle}. All selected datasets have a public domain license. For the final model to be able to generalize to a vast range of images, the final dataset for this project has three classes: human, animal, and scenic.
 
  \subsubsection{Repurposing Online Datasets}
 
-The human image dataset, originally intended for human detection, contains a diverse range of 17,300 images of people in different environments \citep[]{kaggle_human}. Furthermore, the animal image dataset, initially developed for image classification contains 5,400 images of 90 different animals \citep[]{kaggle_animal}. For this project’s purpose, this dataset is ideal as it encompasses a diverse set of images with an equal distribution of each animal. Additionally, the scenic image dataset from \citet{kaggle_scene} contains 4,319 images of a variety of landscapes spanning a large breadth of colour palettes, potentially influencing the robustness of the final model.
+ The chosen human, animal and scenic datasets were originally compiled to serve specific tasks for machine learning. However, the team repurposed these datasets to train the model in colourising images using deep learning. For instance, the human image dataset was initially intended for human detection tasks; it contains 17,300 images of people in a comprehensive range of environments, including a wide variety of colors \citep[]{kaggle_human}. Additionally, the animal image dataset was developed for image classification and contains 90 different classes of animals equally distributed across 5,400 images \citep[]{kaggle_animal}. Moreover, the scenic image dataset has 4,319 images of a variety of scenic landscapes \citep{kaggle_scene}. For the purpose of this project, these datasets are optimal as these encompass a broad range of colour palettes, possibly impacting the robustness of the final model.
+
+\subsubsection{Data Collection Challenges and Evaluation}
+
+A challenge faced during data processing was finding a ready-made dataset online intended for image colourization. The datasets available on Kaggle.com for image colourization contained around 5,000 images, which the team determined was insufficient to split into training, validation and test sets. Furthermore, while these datasets had grayscale and coloured pairs, the files were named inconsistently. This introduced the possibility of mismatched image pairs upon download, leading to skewed results when training and incorrect losses/errors. As a result, the team decided to compile a unique dataset for this project using multiple different datasets from Kaggle.com, and creating the input grayscale counterparts of the colored images found in these sets. 
 
 \subsubsection{Cleaning Up The Datasets}
-The team extracted all the images from each dataset and relocated them into folders corresponding to their category (human/animal/scenic). Due to the disparity in the size of the three datasets, each dataset was reduced to exactly 4200 images using Python’s \verb|random.sample| function with the seed set to 42. The images were then renamed in accordance to their respective categories (ex. human\_0001.jpg). 
 
-\subsubsection{Formatting the Data}
+All three datasets were uploaded to Google Drive. Using Google Colab, the images were relocated into folders according to their category (human, animal or scenic). To equally distribute the dataset among the three categories, each dataset was then reduced to 4200 images using Python’s \verb|random.sample| function with the seed set to 42. Furthermore, the image files were renamed with respect to their category (ex. human\_0001.jpg). 
+
+\subsubsection{Formatting the Data and Creating A Unique Dataset}
 
 This project requires a unique dataset with black-and-white images paired with their coloured counterparts as the ground truths. To format the cleaned up data and create this dataset, PyTorch’s \verb|torchvision.transforms| library was utiltized. The team first converted the original images into 256 x 256 pixel ground truth images using the \verb|Resize| transform and sorted them according to their category. Following this, \verb|Grayscale| transform with a output channel of 1 was used to convert the 256 x 256 pixel colour images to 256 x 256 pixel grayscale images to feed into the model. 
+
+\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+  \centering
+  \includegraphics[width=0.68\linewidth]{Figs/Data Example.png}
+  \caption{Sample Data Pair from Training Set}
+  \label{fig:data_example}
+\end{figure}
 
  \subsubsection{Splitting Dataset Into Training, Validation and Test Sets}
 
@@ -105,17 +122,10 @@ The final dataset is composed of 12,600 pairs of colour and their corresponding 
 
 \begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
   \centering
-  \includegraphics[width=0.65\linewidth]{Figs/dataset1.png}
+  \includegraphics[width=0.6\linewidth]{Figs/dataset1.png}
   \caption{Training, Validation and Test Set Distribution of 12600 Image Pairs}
   \label{fig:dataset}
 \end{figure}
-
-\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
-  \centering
-  \includegraphics[width=0.65\linewidth]{Figs/Data Example.png}
-  \caption{Sample Data Pair from Training Set}
-  \label{fig:data_example}
-\end{figure}b
 
 \subsection{Baseline Model}
 

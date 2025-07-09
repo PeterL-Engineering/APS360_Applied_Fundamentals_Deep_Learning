@@ -82,6 +82,41 @@ Traditional image colorization methods involve manual labour that is costly and 
 
 \subsection{Data Processing}
 
+ The project's image dataset was compiled using publicly available datasets on Kaggle.com, an online platform that provides access to real-world datasets and a community for data scientists \citep[]{kaggle}. To train a model that can generalize to a broad range of images, the final dataset for this project includes three categories: human, animal, and scenic. All selected datasets are licensed for public domain use. 
+
+ \subsubsection{Repurposing Online Datasets}
+
+The human image dataset, originally intended for human detection, contains a diverse range of 17,300 images of people in different environments \citep[]{kaggle_human}. Furthermore, the animal image dataset, initially developed for image classification contains 5,400 images of 90 different animals \citep[]{kaggle_animal}. For this project’s purpose, this dataset is ideal as it encompasses a diverse set of images with an equal distribution of each animal. Additionally, the scenic image dataset from \citet{kaggle_scene} contains 4,319 images of a variety of landscapes spanning a large breadth of colour palettes, potentially influencing the robustness of the final model.
+
+\subsubsection{Cleaning Up The Datasets}
+The team extracted all the images from each dataset and relocated them into folders corresponding to their category (human/animal/scenic). Due to the disparity in the size of the three datasets, each dataset was reduced to exactly 4200 images using Python’s \verb|random.sample| function with the seed set to 42. The images were then renamed in accordance to their respective categories (ex. human\_0001.jpg). 
+
+\subsubsection{Formatting the Data}
+
+This project requires a unique dataset with black-and-white images paired with their coloured counterparts as the ground truths. To format the cleaned up data and create this dataset, PyTorch’s \verb|torchvision.transforms| library was utiltized. The team first converted the original images into 256 x 256 pixel ground truth images using the \verb|Resize| transform and sorted them according to their category. Following this, \verb|Grayscale| transform with a output channel of 1 was used to convert the 256 x 256 pixel colour images to 256 x 256 pixel grayscale images to feed into the model. 
+
+ \subsubsection{Splitting Dataset Into Training, Validation and Test Sets}
+
+To create the training, validation and test sets, a ratio of 70:15:15 was chosen. The first 2940 images of each of dataset categories (human/animal/scene) were selected for the training set. The remaining images were split evenly to create the validation and testing datasets. 
+
+\subsubsection{The Final Dataset}
+
+The final dataset is composed of 12,600 pairs of colour and their corresponding grayscale images. Each category (human, animal, and scenic) contains 4,200 image pairs and an even distribution of each category was maintained in the training, validation and test sets.
+
+\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+  \centering
+  \includegraphics[width=0.65\linewidth]{Figs/dataset1.png}
+  \caption{Training, Validation and Test Set Distribution of 12600 Image Pairs}
+  \label{fig:dataset}
+\end{figure}
+
+\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+  \centering
+  \includegraphics[width=0.65\linewidth]{Figs/Data Example.png}
+  \caption{Sample Data Pair from Training Set}
+  \label{fig:data_example}
+\end{figure}b
+
 \subsection{Baseline Model}
 
 To establish a performance benchmark for our colorization task, we implemented a shallow convolutional neural network called \texttt{ShallowColorizationNet}. This model uses a simple 
@@ -161,11 +196,6 @@ On some photos the network over-uses warm hues, giving a slight brown cast. Earl
 
 After five epochs the model already lifts SSIM from 0.58 (baseline) to 0.74, showing it can learn credible colour cues. Remaining errors are mostly a warm “brown” bias. Because these mistakes are consistent, modest adjustments should yield clear gains. We plan to (i) rebalance training batches so cool and warm tones appear equally, and (ii) add a light perceptual loss to discourage over-use of one hue. These changes require no extra parameters or memory. With a 20-epoch run and a cosine learning-rate schedule, we expect further improvement toward an SSIM of 0.80 while staying within course limits.
 
-\section{Data Processing}
-
-\section{Baseline Model}
-
-\section{Primary Model}
 \label{last_page}
 
 \newpage

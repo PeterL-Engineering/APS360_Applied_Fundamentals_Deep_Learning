@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex APS360_Report"] 1752080397.2826 "APS360_Report.aux" "APS360_Report.bbl" "APS360_Report" 1752080398.76933 0
-  "./APS360_Report_ref.bib" 1752018128.0619 3138 8b5ce64d70e73b8d0b2c0700ffac69a3 ""
+["bibtex APS360_Report"] 1752164733.24314 "APS360_Report.aux" "APS360_Report.bbl" "APS360_Report" 1752164735.75609 0
+  "./APS360_Report_ref.bib" 1752163264.3528 3149 588ebff9db7d716d7c1c8aae4a6dd701 ""
   "./iclr2022_conference.bst" 1751904696.75275 26973 aa1df73f8afb5963eb2fc74f4c7630c1 ""
-  "APS360_Report.aux" 1752080398.49203 5809 6e9e02edf221e63ec5d81699c28972c4 "pdflatex"
+  "APS360_Report.aux" 1752164735.40529 5999 a0ee0451010f0e4591af925c5fcebf4e "pdflatex"
   (generated)
   "APS360_Report.bbl"
   "APS360_Report.blg"
   (rewritten before read)
-["pdflatex"] 1752080397.41717 "/Users/thulasi/Documents/GitHub/APS_360/Project/Progress Report/APS360_Report.tex" "APS360_Report.pdf" "APS360_Report" 1752080398.76971 0
-  "/Users/thulasi/Documents/GitHub/APS_360/Project/Progress Report/APS360_Report.tex" 1752080395.58399 15661 52ac0967b2155869691bc46414a6d1bf ""
+["pdflatex"] 1752164733.3803 "/Users/thulasi/Documents/GitHub/APS_360/Project/Progress Report/APS360_Report.tex" "APS360_Report.pdf" "APS360_Report" 1752164735.75657 0
+  "/Users/thulasi/Documents/GitHub/APS_360/Project/Progress Report/APS360_Report.tex" 1752164728.32946 17576 01f5d8dd9eefe42327219392f7d153ad ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -119,15 +119,17 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1749471877 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1741450574 3345740 46b66fdb0378f7bf5921b5eabf1762b8 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "APS360_Report.aux" 1752080398.49203 5809 6e9e02edf221e63ec5d81699c28972c4 "pdflatex"
-  "APS360_Report.bbl" 1752080397.41388 2714 c6a8ace6cb9af1df8c0779da0b109ba2 "bibtex APS360_Report"
-  "APS360_Report.out" 1752080398.49315 4072 4f549ada98b9b05bf9bb60ac97b0856e "pdflatex"
-  "APS360_Report.tex" 1752080395.58399 15661 52ac0967b2155869691bc46414a6d1bf ""
+  "APS360_Report.aux" 1752164735.40529 5999 a0ee0451010f0e4591af925c5fcebf4e "pdflatex"
+  "APS360_Report.bbl" 1752164733.37581 2481 5a011822bde5927fb5e514feb320af4e "bibtex APS360_Report"
+  "APS360_Report.out" 1752164735.40654 4240 c1d89a64d3fe638d0fe3e6d2e5317221 "pdflatex"
+  "APS360_Report.tex" 1752164728.32946 17576 01f5d8dd9eefe42327219392f7d153ad ""
   "Figs/Data Example.png" 1752018078.75028 1217848 f92b0d7c04aabb1a90ceccea461c87bc ""
   "Figs/baseline_learning_curve.jpg" 1751989023.76074 31331 8d321683042312eca40d334fadfb6517 ""
   "Figs/baseline_output.png" 1751904696.75166 44069 c350aeaa1d522612511cac18c1d8d9f4 ""
   "Figs/dataset1.png" 1752018078.76253 60788 fbfc67a869f2466b818091317b0e8345 ""
   "Figs/final-model-example.png" 1752079741.73481 971636 693e892deecd422fd6f1748f19ebf2ef ""
+  "Figs/full-gantt.png" 1752163468.14493 162459 26276793af0c33bad76801f7d561db2f ""
+  "Figs/task-names.png" 1752161026.93989 293397 e9b4e755bd82b347613f752f9dbbc04b ""
   "fancyhdr.sty" 1751904696.75253 20521 e5d13d98d57bd53d4fed3aa61bd29c86 ""
   "iclr2022_conference.sty" 1751904696.75292 9167 4f484121d9ee5c46ae7b712b095a6d14 ""
   "math_commands.tex" 1751904696.75307 12284 a71653715108dc62b66e3a0bde0307d8 ""

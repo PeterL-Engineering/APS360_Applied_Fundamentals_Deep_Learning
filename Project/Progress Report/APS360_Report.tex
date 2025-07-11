@@ -164,7 +164,7 @@ Visually, the model produced smooth but muted colourizations. It often defaulted
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{Figs/baseline_output.png}
-    \caption{Sample output from the baseline model on grayscale input images.}
+    \caption{Sample output from the baseline model on grayscale input image.}
     \label{fig:baseline_outputs}
 \end{figure}
 
@@ -186,9 +186,23 @@ The encoder reuses the first four blocks of ResNet-18, pretrained on ImageNet, w
 
 \subsection{Training and Evaluation}
 
-The model was trained for 5 epochs on a cleaned dataset of 12.6k images using the AdamW optimizer with a learning rate of 3 \texttimes $10^{-4}$ and a batch size of 32. A cosine annealing schedule was used to decay the learning rate. Over training, validation L1 loss decreased from 0.07 to 0.0064, and SSIM improved from 0.58 to 0.74. These results indicate that the model learned a more accurate and detailed mapping from grayscale to chrominance than the baseline.
+The model was trained for 15 epochs on a cleaned dataset of 12.6k images using the AdamW optimizer with a learning rate of 3 \texttimes $10^{-4}$ and a batch size of 32. A cosine annealing schedule was used to decay the learning rate. Over training, validation L1 loss decreased from 0.0067 to 0.0058 (Figure~\ref{fig:primary_learning_curve}), and SSIM improved from 0.58 to 0.74. These results indicate that the model learned a more accurate and detailed mapping from grayscale to chrominance than the baseline.
 
-Qualitatively, the model produced more vibrant and contextually plausible colourizations. It successfully recovered features such as sky blues, fur textures, and skin tones, which the baseline model failed to represent effectively. However, it still struggled with visually complex scenes (e.g., forests and crowds), often generating muddied colours.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{Figs/primary_learning_curve.png}
+    \caption{Training and validation loss of primary model over 15 epochs.}
+    \label{fig:primary_learning_curve}
+\end{figure}
+
+Qualitatively, the model produced more vibrant and contextually plausible colourizations. It successfully recovered features such as sky blues, fur textures, and skin tones, which the baseline model failed to represent effectively. However, it still struggled with visually complex scenes (e.g., forests and crowds), often generating muddied colours. An example of these effects is shown in Figure~\ref{fig:primary_model_results}, where the colour of the sky is captured acccurately, however the landscape lacks saturation.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{Figs/primary_model_results.png}
+    \caption{Sample output from the primary model on grayscale input image.}
+    \label{fig:primary_model_results}
+\end{figure}
 
 \subsection{Challenges}
 

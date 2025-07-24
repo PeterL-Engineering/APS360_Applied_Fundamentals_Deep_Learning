@@ -1,0 +1,248 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{iclr2022_conference,times}
+% Optional math commands from https://github.com/goodfeli/dlbook_notation.
+\input{math_commands.tex}
+
+%######## APS360: Uncomment your submission name
+%\newcommand{\apsname}{Project Proposal}
+%\newcommand{\apsname}{Progress Report}
+\newcommand{\apsname}{Final Report}
+
+%######## APS360: Put your Group Number here
+\newcommand{\gpnumber}{40}
+
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{float}
+
+%######## APS360: Put your project Title here
+\title{Image Colourization via Convolutional \\
+Neural Networks and Deep Learning}
+
+%######## APS360: Put your names, student IDs and Emails here
+\author{Youssef Fikry  \\
+Student\# 1006682626\\
+\texttt{youssef.fikry@mail.utoronto.ca} \\
+\And Harkirpa Kaur  \\
+Student\# 1011242479 \\
+\texttt{harkirpa.kaur@mail.utoronto.ca} \\
+\AND
+Peter Leong \\
+Student\# 1010892955 \\
+\texttt{peter.leong@mail.utoronto.ca} \\
+\And
+Thulasi Thavarajah \\
+Student\# 10115358424 \\
+\texttt{t.thavarajah@mail.utoronto.ca} \\
+\AND
+}
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to \LaTeX{} to determine where to break
+% the lines. Using \AND forces a linebreak at that point. So, if \LaTeX{}
+% puts 3 of 4 authors names on the first line, and the last on the second
+% line, try using \AND instead of \And before the third author name.
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\iclrfinalcopy 
+%######## APS360: Document starts here
+\begin{document}
+
+
+\maketitle
+
+\begin{abstract}
+This project addresses the challenge of automated colourization for 256$\times$256 grayscale images using a dataset of 12,600 image pairs, balanced across human subjects, 
+animals, and natural scenery. We frame colourization as a supervised learning problem in the CIELAB colour space, where a model predicts chrominance channels ($a^*$, $b^*$) 
+from the luminance channel ($L^*$). A shallow convolutional neural network (CNN) provides the baseline performance, while our primary solution employs a deeper convolutional encoder-decoder architecture. This 
+design captures high-level semantic features and spatial context, addressing limitations of shallow networks in perceptual realism. All source code, datasets, and results 
+are publicly available \href{https://drive.google.com/drive/folders/1cV1NhlQ8UTk_CgJdwhqeRu0z5xE85ZsI?usp=sharing}{here}. 
+%######## APS360: Do not change the next line. This shows your Main body page count.
+----Total Pages: \pageref{last_page}
+\end{abstract}
+
+
+\section{Brief Project Description}
+
+The invention of photography provided the technology to capture a moment in time. However, for most of photographic history, the process of obtaining coloured images eluded photographers \citep{scienceandmediamuseum2020}. As a result, much of historic photography is grayscale; lacking the visual richness found in modern photography and is inaccessible to individuals with vision impairments \citep{vogelsang2024impact}. This project aims to leverage deep learning to automate the colourization of grayscale images, thereby aiding in the revitalization of grayscale photographs. Furthermore, image colourization technology assists archivists and museums in restoring lost visual information and has applications in the media, medical and geospatial industries. 
+
+\begin{figure}[h]            % h=here, t=top, b=bottom, p=page float
+  \centering
+  \includegraphics[width=0.99\linewidth]{Figs/final-model-example.png}
+  \caption{Example Input, Output and Ground Truth From Primary Model}
+  \label{fig:final-model}
+\end{figure}
+
+Traditional image colourization methods involve manual labour that is costly and time-consuming \citep{farella2022}. On the other hand, deep learning approaches automate the colourization process and supplant traditional techniques \citep{farella2022}. In machine learning, colourization is defined as a model taking a black-and-white image as an input (see Figure 1), and outputting its coloured counterpart \citep{lettherebecolor}. From a machine learning perspective, deep convolutional neural networks are best suited for this task as they can extract and learn features such as colours, patterns and shapes in images and affiliate them with object classes \citep{deepcnn}. These characteristics aid CNNs in excelling at object classification tasks, as well as image colourization \citep{deepcnn}. 
+
+\section{Individual Contributions \& Responsibilities}
+The team is collaborating effectively by dividing the work based on technical strengths and ensuring transparency through regular updates. Thulasi has led the data processing pipeline, 
+handling cleanup, data splitting, and restructuring of the dataset for human, animal, and scenic image categories. Peter developed and trained the baseline model using a shallow CNN architecture 
+and is responsible for model training, as he has access to a better GPU. Youssef and Kirpa are responsible for model optimization and implementation; however, all modelling decisions are made collaboratively. 
+The current model is producing brown-hued images, and discussion is underway to find possible fixes. The team communicates through a dedicated Discord server, while all code is written on Colab and organized 
+in a shared Google Drive, along with meeting minutes and the Gantt chart. All project deliverables are stored in a public GitHub repository with separate branches for each team member to avoid merge conflicts. 
+The meeting leader's role alternates weekly, and the Gantt chart is updated during each meeting to track progress. A Gantt chart showing the updated project plan and work distribution can be found in Appendix A.
+
+Redundancies are in place to minimize project risks. Currently, Peter runs the model training due to GPU access, but both Youssef and Harkirpa have compatible hardware to take over if needed. All code is documented 
+with extensive comments and stored centrally in the shared drive to ensure that any member can interpret and modify it if someone becomes unavailable.
+
+\section{Data Processing}
+
+ The team compiled the project's image dataset using Kaggle.com, an online platform that provides access to publicly available, real-world datasets and a community for data scientists \citep[]{kaggle}. All selected datasets have a public domain license. For the final model to be able to generalize to a vast range of images, the final dataset for this project has three classes: human, animal, and scenic.
+
+ \subsection{Repurposing Online Datasets}
+
+ The chosen human, animal and scenic datasets were originally compiled to serve specific tasks for machine learning. However, the team repurposed these datasets to train the model in colourizing images using deep learning. For instance, the human image dataset was initially intended for human detection tasks; it contains 17,300 images of people in a comprehensive range of environments, including a wide variety of colours \citep[]{kaggle_human}. Additionally, the animal image dataset was developed for image classification and contains 90 different classes of animals equally distributed across 5,400 images \citep[]{kaggle_animal}. Moreover, the scenic image dataset has 4,319 images of a variety of scenic landscapes \citep{kaggle_scene}. For the purpose of this project, these datasets are optimal as these encompass a broad range of colour palettes, possibly impacting the robustness of the final model.
+
+\subsection{Data Collection Challenges and Evaluation}
+
+A challenge faced during data processing was finding a ready-made dataset online intended for image colourization. The datasets available on Kaggle.com for image colourization contained around 5,000 images, which the team determined was insufficient to split into training, validation and test sets. Furthermore, while these datasets had grayscale and coloured pairs, the files were named inconsistently. This introduced the possibility of mismatched image pairs upon download, leading to skewed results when training and incorrect losses/errors. As a result, the team decided to compile a unique dataset for this project using multiple different datasets from Kaggle.com, and create the input grayscale counterparts of the coloured images found in these sets. 
+
+\subsection{Cleaning Up The Datasets}
+
+All three datasets were uploaded to Google Drive. Using Google Colab, the images were relocated into folders according to their category (human, animal or scenic). To equally distribute the dataset among the three categories, each dataset was then reduced to 4200 images using Python’s \verb|random.sample| function with the seed set to 42. Furthermore, the image files were renamed with respect to their category (ex. human\_0001.jpg). 
+
+\subsection{Formatting the Data and Creating A Unique Dataset}
+
+PyTorch’s \verb|torchvision.transforms| library was utiltized to create the grayscale input images from their coloured counterparts. The original, colour images were converted into 256 x 256 pixel files using the \verb|Resize| transform. Following this, the 256 x 256 pixel colour images were converted into 256 x 256 pixel grayscale images using the \verb|Grayscale| transform with a output channel of 1 (see Figure 2). 
+
+\begin{figure}[h]            % h=here, t=top, b=bottom, p=page float
+  \centering
+  \includegraphics[width=1\linewidth]{Figs/Data Example.png}
+  \caption{Sample Data Pair from Training Set}
+  \label{fig:data_example}
+\end{figure}
+
+ \subsection{Splitting Dataset Into Training, Validation and Test Sets}
+
+A ratio of 70:15:15 was chosen to split the dataset into training, validation and test sets. The first 2940 images of each category (human/animal/scene) were relocated to the training set. The next 630 images from each category were complied to create the validation set. The remaining images are reserved for the testing set to evaluate model performance on unseen data. 
+
+\subsection{The Final Dataset}
+
+The final dataset contains of 12,600 pairs of grayscale and coloured image counterparts (see Figure 3). Each of the final training, validation and testing sets had an equal distribution of each category (human/animal/scenic). 
+
+\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+  \centering
+  \includegraphics[width=0.7\linewidth]{Figs/dataset1.png}
+  \caption{Training, Validation and Test Set Distribution of 12600 Image Pairs}
+  \label{fig:dataset}
+\end{figure}
+
+\section{Baseline Model}
+
+To establish a performance benchmark for our colourization task, we implemented a shallow convolutional neural network. This model uses a simple encoder-bottleneck-decoder architecture and does not incorporate adversarial training. Its purpose is to test the feasibility of learning a direct mapping from grayscale luminance (\textit{L}) input to the chrominance (\textit{ab}) channels in the CIELAB colour space.
+
+\subsection{Model Architecture}
+
+The architecture of the baseline model consists of an encoder, a bottleneck, and a decoder. The encoder comprises two convolutional layers with ReLU activation, each followed by max pooling to reduce spatial dimensions while increasing channel depth. The bottleneck contains a single convolutional layer that expands the feature representation. Finally, the decoder includes a transposed convolution to restore spatial resolution, followed by a final convolutional layer that outputs two channels (corresponding to \textit{a} and \textit{b}), with a $\tanh$ activation to constrain the output values between $[-1, 1]$.
+
+\subsection{Training and Comparison Approach}
+
+The baseline model was trained using the L1 loss between predicted and ground truth \textit{ab} channels. This model was compared to our primary neural network---a conditional GAN model that includes a discriminator to encourage more realistic colourizations---based on both quantitative and qualitative results.
+
+\subsection{Quantitative and Qualitative Results}
+
+The baseline model was trained for 5 epochs using L1 loss. Generator loss remained stable around 1.5647, while discriminator loss converged to approximately 0.7074 (Figure~\ref{fig:baseline_curve}). These flat trends suggest that the network learned a consistent, though limited, mapping from grayscale to chrominance. Without adversarial training or perceptual feedback, the model lacked incentive to generate vivid or diverse colours. These values serve as reference points for evaluating improvements made by our primary GAN-based model.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{Figs/baseline_learning_curve.jpg}
+    \caption{Generator and discriminator loss values over 5 epochs of training. The architecture will be investigated further during the final phase of the project to determine why 
+    the loss values fluctuate by such small amounts.}
+
+    \label{fig:baseline_curve}
+\end{figure}
+
+Visually, the model produced smooth but muted colourizations. It often defaulted to average chroma values in ambiguous regions, leading to low colour diversity and occasional greying. These effects are visible in Figure~\ref{fig:baseline_outputs}, where skies, grass, and clothing exhibit uniform, low-saturation tones.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{Figs/baseline_output.png}
+    \caption{Sample output from the baseline model on grayscale input image.}
+    \label{fig:baseline_outputs}
+\end{figure}
+
+\subsection{Challenges}
+
+The primary challenge encountered during development was the tendency of the baseline model to learn overly conservative colour predictions. Without a discriminator or explicit diversity loss, the network favored colourizations close to the dataset mean. Additionally, selecting the appropriate normalization strategy for LAB space and constraining output to valid chrominance ranges required careful tuning.
+
+\subsection{Feasibility Assessment}
+
+Despite its simplicity, the baseline model demonstrated that the colourization task is learnable with a low-capacity network, although the outputs lacked the vividness and fidelity achieved by our primary GAN-based model. The baseline thus served its role in confirming the viability of end-to-end colourization from grayscale input and establishing a benchmark for model improvement.
+
+\section{Primary Model}
+
+To improve colourization fidelity and colour diversity, we implemented a more expressive network combining a ResNet-18 encoder with a U-Net-style decoder. This architecture preserves global context through the encoder while maintaining fine-grained detail via skip connections in the decoder. The total parameter count is approximately 15 million, remaining within Google Colab's compute constraints.
+
+\subsection{Model Architecture}
+
+The encoder reuses the first four blocks of ResNet-18, pretrained on ImageNet, with the initial convolution modified to accept a single-channel \textit{L} image. This configuration produces feature maps at progressively coarser resolutions (256\texttimes256, 128\texttimes128, 64\texttimes64, and 32\texttimes32). The decoder performs upsampling in three stages, each consisting of a transposed convolution followed by two 3\texttimes3 convolutions, BatchNorm, and ReLU. Skip connections inject corresponding encoder features to enhance spatial precision. The output layer applies a 3\texttimes3 convolution and $\tanh$ activation to produce the predicted \textit{a} and \textit{b} channels.
+
+\subsection{Training and Evaluation}
+
+The model was trained for 15 epochs on a cleaned dataset of 12.6k images using the AdamW optimizer with a learning rate of 3 \texttimes $10^{-4}$ and a batch size of 32. A cosine annealing schedule was used to decay the learning rate. Over training, validation L1 loss decreased from 0.0067 to 0.0058 (Figure~\ref{fig:primary_learning_curve}), and SSIM improved from 0.58 to 0.74. These results indicate that the model learned a more accurate and detailed mapping from grayscale to chrominance than the baseline.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{Figs/primary_learning_curve.png}
+    \caption{Training and validation loss of primary model over 15 epochs.}
+    \label{fig:primary_learning_curve}
+\end{figure}
+\FloatBarrier
+
+Qualitatively, the model produced more vibrant and contextually plausible colourizations. It successfully recovered features such as sky blues, fur textures, and skin tones, which the baseline model failed to represent effectively. However, it still struggled with visually complex scenes (e.g., forests and crowds), often generating muddied colours. An example of these effects is shown in Figure~\ref{fig:primary_model_results}, where the colour of the sky is captured acccurately, however the landscape lacks saturation.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{Figs/primary_model_results.png}
+    \caption{Sample output from the primary model on grayscale input image.}
+    \label{fig:primary_model_results}
+\end{figure}
+\FloatBarrier
+
+\subsection{Challenges}
+
+During training, the model exhibited a bias toward warm tones, resulting in a mild brownish cast on some outputs. Analysis suggested that brown-dominant scenes were over-represented in the training data and that the L1 loss did not adequately penalize this colour skew. Addressing this required adjusting the LAB histogram distribution across batches and considering the introduction of a perceptual loss term.
+
+\subsection{Feasibility Assessment}
+
+The model achieved a substantial improvement in both quantitative metrics and visual output compared to the baseline. It demonstrated the feasibility of integrating pretrained backbones and skip connections to enhance colourization fidelity while remaining computationally lightweight. The consistent colour bias errors suggest further gains could be realized by balancing chrominance statistics and refining the loss function. With these adjustments, we expect additional improvements toward an SSIM of 0.80 within course resource limits.
+
+\label{last_page}
+
+\newpage
+\bibliographystyle{iclr2022_conference}
+\bibliography{APS360_Final_Report_ref}
+
+\newpage
+\section{Appendix A: Gantt Chart}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\linewidth]{Figs/task-names.png}
+  \label{fig:task-names}
+\end{figure}
+
+\centering{Figure A1: Outline of Tasks and Assigned Teammates}
+
+\newpage
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\linewidth]{Figs/full-gantt.png}
+  \label{fig:gantt}
+\end{figure}
+
+\centering{Figure A2: Gantt Chart for Entire Project}
+
+
+
+
+\end{document}

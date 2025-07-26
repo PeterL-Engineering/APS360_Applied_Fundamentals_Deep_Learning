@@ -160,7 +160,7 @@ distribution of each category was maintained in the training, validation and tes
 \begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
   \centering
   \includegraphics[width=0.9\linewidth]{Figs/architecture.png}
-  \caption{Encoder–decoder colourization network with skip connections.}
+  \caption{Encoder-decoder colourization network with skip connections.}
   \label{fig:architecture}
 \end{figure}
 
@@ -200,9 +200,9 @@ spatial resolution by half. This was followed by a bottleneck layer with 256 fil
 
 The decoder upsampled the feature map using a transposed convolution that reduced the number of channels from 256 back to 128 while restoring the original resolution, followed by ReLU. 
 A final convolutional layer projected to 2 output channels corresponding to the a and b values, and a Tanh activation was applied to constrain the outputs to the normalized Lab colour 
-range of [−1,1][−1,1] \citep{rosebrock2019bwcolorization}.
+range of [-1,1][-1,1] \citep{rosebrock2019bwcolorization}.
 
-We made no architectural or hyperparameter changes to this baseline throughout the project; its simplicity was intentional. It lacked skip connections, pretrained components, or deep 
+We made no architectural or hyperparameter changes to this baseline throughout the project. It lacked skip connections, pretrained components, or deep 
 feature extraction, and as expected, often produced desaturated or muted results. Nonetheless, it served as a clear and reproducible benchmark against which the improvements from our 
 full model could be evaluated.
 
@@ -212,11 +212,56 @@ full model could be evaluated.
 \section{Qualitative Results}
 \label{qual_results}
 
+Our primary model consistently outperformed the baseline, particularly on landscape scenes where the network was able to recover vibrant skies, foliage, and water with relatively 
+realistic hues. In contrast, the baseline produced dull or grayish outputs that lacked semantic colour cues. Figure~\ref{fig:landscape_comparison} shows this clear contrast: while 
+the baseline yields low-saturation results, the primary model introduces plausible blue and green tones, suggesting the network successfully learned common associations between luminance 
+and scene content.
+
+Performance was less reliable on images of animals and humans, especially when the ground truth involved bright or saturated colours. In these cases, both the baseline and primary models 
+tended to favour brownish or muted tones, likely due to the loss function penalizing deviations from average colours. This averaging effect is illustrated in Figure~\ref{fig:final-model-zebra},
+where facial features and fur appear washed out or overly neutral.
+
+\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+  \centering
+  \includegraphics[width=0.9\linewidth]{Figs/final-model-example.png}
+  \caption{Example output of a zebra image from the primary model. The model successfully captures the zebra's stripes and fur texture, producing a realistic colourization.}
+  \label{fig:final-model-zebra}
+\end{figure}
+
+We also experimented with several alternate architectures: diverse colourization, quantized outputs using colour bins, multi-path networks, and exemplar-based models. Despite their 
+conceptual appeal, these approaches often underperformed our original model. Figure~\ref{fig:colour-bins-landscape} displays the results from the colour bin model. The exemplar and multi-path models 
+frequently introduced a purplish tint across diverse inputs, while the quantized and diverse variants still exhibited the same dulling behaviour due to similar averaging tendencies. 
+These results highlight that added architectural complexity does not guarantee improved performance, and in some cases, may exacerbate artefacts or introduce new failure modes.
+
+\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+  \centering
+  \includegraphics[width=0.9\linewidth]{Figs/colour-bins-landscape.jpg}
+  \caption{Example output of the colour bin model on a landscape image. The model attempts to predict colours using quantized bins, but the results are often muted and lack vibrancy.}
+  \label{fig:colour-bins-landscape}
+\end{figure}
+
 \section{Evaluation on New Data}
 \label{new_data}
 
 \section{Discussion}
 \label{discussion}
+
+Our model generally performed well, especially on landscape images, where predicted colours often aligned well with the ground truth. These results suggest the model successfully
+learned broad structural features such as skies, foliage, and terrain. However, performance declined on images featuring humans and animals, particularly when the ground truth
+contained highly saturated or vibrant colours. In such cases, both the baseline and our primary model tended toward muted, brownish hues. This behaviour likely arises from the
+pixel-wise loss, which encourages the model to average colours to minimize error—resulting in desaturated outputs that reduce loss but compromise visual realism.
+
+To explore alternative strategies, we experimented with several advanced colourization approaches, including diverse colourization (generating multiple plausible outputs),
+quantized prediction using discrete colour bins, multi-path architectures, and exemplar-based methods. Despite their conceptual promise, these alternatives failed to outperform
+our initial primary model, both quantitatively and qualitatively. In particular, the multi-path and exemplar-based models often produced outputs with a noticeable purple hue, 
+suggesting instability or poor alignment between reference features and target content. Other approaches encountered similar issues of colour averaging, with results again skewing 
+brown or gray to minimize loss.
+
+These findings were unexpected, although the alternative architectures seemed promising in theory, our initial model consistently performed better in both accuracy and visual quality. 
+This shows that adding architectural complexity does not necessarily lead to better outcomes. In fact, some modifications introduced new problems—for example, the exemplar-based and 
+multi-path models often produced a noticeable purple hue. Others, such as the quantized and diverse models, still struggled with the same tendency to average colours, leading to dull 
+or brownish results. Overall, this highlighted the importance of a balanced and well-tuned architecture. Through this process, we learned that effective colourization depends not just 
+on network design, but also on careful attention to loss behaviour, data distribution, and how these elements influence model outputs.
 
 \section{Ethical Considerations}
 \label{ethical}

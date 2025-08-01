@@ -170,25 +170,25 @@ while increasing feature depth from 64 to 512. The bottom row depicts the decode
 
 \section{Architecture}
 
-Our primary model for colourization is a convolutional encoder-decoder network, a common and effective architecture for image-to-image translation tasks \citep{leatvanich2025image}. 
-Operating in the CIE Lab colour space, the network takes a grayscale image (the L channel) as input and predicts the two chrominance channels (a and b). The predicted a,b channels 
-are then combined with the original L channel and converted back to RGB for visualization. Using Lab space decouples intensity from colour, aligning with human vision and generally 
-yielding more realistic results than direct RGB prediction \citep{leatvanich2025image}.
+Our primary model for colourization is a convolutional encoder-decoder network, a common architecture for image-to-image translation tasks \citep{leatvanich2025image}. Operating in 
+the CIE Lab colour space, the model takes the L channel (lightness) as input and predicts the a and b chrominance channels. To ensure input-target consistency, we derive the L channel 
+directly from the same RGB image used to generate the ground truth a,b channels. The predicted chrominance values are then combined with the L channel and converted back to RGB for 
+visualization. This use of Lab space decouples intensity from colour, aligning with human perception and typically yielding more realistic results than RGB-based models \citep{leatvanich2025image}.
 
 The architecture resembles a simplified U-Net. The encoder consists of convolutional layers with ReLU activations and batch normalization that progressively downsample the input while 
-extracting high-level features. For example, it begins with a 3x3 convolution producing 64 feature maps, followed by another with 128 filters, each layer accompanied by downsampling 
-to halve spatial dimensions. A bottleneck layer with 256 filters captures an abstract representation of the input. The decoder symmetrically upsamples feature maps back to the original 
-resolution using transposed convolutions and convolutional layers, predicting the two output chrominance channels. Skip connections between corresponding encoder and decoder layers pass 
-fine-grained details (such as edges and textures), improving output sharpness and detail preservation \citep{leatvanich2025image}.
+extracting high-level features. For example, the model starts with a 3×3 convolution producing 64 feature maps, followed by layers with increasing filter counts (e.g., 128), each halving 
+spatial resolution. A bottleneck with 256 filters captures abstract representations. The decoder upsamples these back to the original resolution using transposed convolutions, predicting 
+the a,b channels. Skip connections between encoder and decoder layers help preserve edge and texture details \citep{leatvanich2025image}.
 
-To improve learning efficiency, we initialized the encoder with weights from a ResNet-18 pretrained on ImageNet. This transfer learning approach leverages semantic feature detectors 
-learned on large, diverse datasets, which helps the network better infer plausible colours for objects like faces and backgrounds \citep{olah2022lettherebecolor}. The decoder and final 
-layers were randomly initialized and trained from scratch. The entire model was trained end-to-end by minimizing a pixel-wise loss (mean squared error) between predicted and ground-truth 
-a,b channels in Lab space.
+We initialized the encoder with ResNet-18 weights pretrained on ImageNet, leveraging semantic features learned from large-scale datasets to better infer plausible colours for common 
+objects \citep{olah2022lettherebecolor}. The decoder and output layers were trained from scratch.
 
-While some prior works frame colourization as a classification problem over discrete colour bins to better capture ambiguity—predicting probability distributions instead of direct 
-regression \citep{olah2022lettherebecolor}—we opted for a simpler regression approach. Our model directly outputs continuous a and b values, balancing implementation simplicity with 
-sufficiently plausible colourization results for our project scope.
+Rather than formulating colourization as classification over discrete colour bins \citep{olah2022lettherebecolor}, we use a regression-based approach that directly predicts continuous 
+a,b values. The model uses a linear output head without tanh activation to avoid chroma saturation and preserve the full colour range.
+
+To encourage vibrant, diverse colourization and reduce bias toward brownish tones, we apply a weighted colour loss informed by a dataset-wide chrominance prior. We also use a robust 
+(Huber) pixel loss, which better handles uncertainty and avoids bias toward low-chroma predictions. All augmentations were applied consistently to both input and target images, with 
+vertical flips excluded to preserve semantic orientation. Finally, to reduce training time, prior computations were cached and updated once per epoch, reducing training from six hours to one.
 
 \section{Baseline Model}
 \label{baseline}

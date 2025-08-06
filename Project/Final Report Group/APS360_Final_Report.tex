@@ -266,13 +266,16 @@ on network design, but also on careful attention to loss behaviour, data distrib
 \section{Ethical Considerations}
 \label{ethical}
 
-The dataset used is publicly available, so there are no concerns related to copyright or consent. However, it may reflect racial or demographic imbalances, which could cause the model 
-to produce inaccurate or biased results, particularly in how it represents different skin tones. These inaccuracies can lead to racially or culturally inappropriate colourizations. A 
-similar issue may occur with animals: if the dataset lacks variety in breeds or fur colours, the model may produce misleading or unrealistic images. If such outputs are used in educational 
-materials or for breed identification, they could spread incorrect information.
+The dataset used is publicly available, so there are no copyright or consent concerns. However, there is potential for representation bias, as the dataset may contain imbalances
+in race, skin tone, animal breeds, or fur colours. For instance, if lighter-skinned individuals are overrepresented, the model may produce unrealistic or culturally insensitive colourizations 
+for darker-skinned individuals. A similar issue applies to animals: limited diversity in breeds or fur patterns may lead to misleading results. While such issues have not visibly appeared in 
+our outputs, they remain a risk, especially if colourized images are used for educational purposes or identification tasks.
 
-Since the model generates colourizations that look realistic but cannot be verified, there is also a risk that people may place too much trust in the results—especially in situations 
-where accuracy matters. It is important to clearly communicate the model's limitations and treat its outputs with appropriate caution.
+There is also a risk of evaluation bias. Without knowledge of the dataset's demographic distribution, we cannot ensure the model performs equally well across all categories. This 
+uncertainty could skew evaluation metrics and lead to misinterpretation of the model's effectiveness.
+
+Finally, because the model generates plausible but unverifiable outputs, there is a risk that users may place undue trust in the results. It is therefore critical to communicate the model's 
+limitations clearly and avoid using it in contexts that require factual accuracy.
 
 \label{last_page}
 

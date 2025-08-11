@@ -261,12 +261,20 @@ These results highlight that added architectural complexity does not guarantee i
 Our model generally performed well, especially on landscape images, where predicted colours often aligned well with the ground truth. These results suggest the model successfully
 learned broad structural features such as skies, foliage, and terrain. However, performance declined on images featuring humans and animals, particularly when the ground truth
 contained highly saturated or vibrant colours. In such cases, both the baseline and our primary model tended toward muted, brownish hues. This behaviour likely arises from the
-pixel-wise loss, which encourages the model to average colours to minimize error—resulting in desaturated outputs that reduce loss but compromise visual realism.
+pixel-wise loss, which encourages the model to average colours to minimize error—resulting in desaturated outputs that reduce loss but compromise visual realism. Furthermore, from colour clustering performed on the dataset (see Figure 7), the most dominant hues were grays and browns; this may have contributed to the preliminary model's muted, brownish outputs. 
+
+\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+  \centering
+  \includegraphics[width=0.95\linewidth]{Figs/dom-colours.png}
+  \caption{The dominant five colours in dataset from K-means colour clustering}
+  \label{fig:dom-colours}
+\end{figure}
 
 To explore alternative strategies, we experimented with several advanced colourization approaches, including diverse colourization (generating multiple plausible outputs),
 quantized prediction using discrete colour bins, multi-path architectures, and exemplar-based methods. Despite their conceptual promise, these alternatives failed to outperform
 our initial primary model, both quantitatively and qualitatively. In particular, the multi-path and exemplar-based models often produced outputs with a noticeable purple hue, 
-suggesting instability or poor alignment between reference features and target content. Other approaches encountered similar issues of colour averaging, with results again skewing 
+suggesting instability or poor alignment between reference features and target content. 
+Other approaches encountered similar issues of colour averaging, with results again skewing 
 brown or gray to minimize loss.
 
 These findings were unexpected, although the alternative architectures seemed promising in theory, our initial model consistently performed better in both accuracy and visual quality. 

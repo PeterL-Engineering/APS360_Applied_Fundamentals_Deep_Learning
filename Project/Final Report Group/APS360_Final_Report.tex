@@ -18,6 +18,7 @@
 \usepackage{graphicx}
 \usepackage{placeins}
 \usepackage{float}
+\usepackage{tikz}
 
 %######## APS360: Put your project Title here
 \title{Image Colourization via Convolutional \\
@@ -63,8 +64,7 @@ Student\# 10115358424 \\
 This project addresses the challenge of automated colourization for 256$\times$256 grayscale images using a dataset of 12,600 image pairs, balanced across human subjects, 
 animals, and natural scenery. We frame colourization as a supervised learning problem in the CIELAB colour space, where a model predicts chrominance channels ($a^*$, $b^*$) 
 from the luminance channel ($L^*$). A shallow convolutional neural network (CNN) provides the baseline performance, while our primary solution employs a deeper convolutional 
-encoder-decoder architecture. This design captures high-level semantic features and spatial context, addressing limitations of shallow networks in perceptual realism. All 
-source code, datasets, and results are publicly available \href{https://drive.google.com/drive/folders/1cV1NhlQ8UTk_CgJdwhqeRu0z5xE85ZsI?usp=sharing}{here}. 
+encoder-decoder architecture. This design captures high-level semantic features and spatial context, addressing limitations of shallow networks in perceptual realism.
 %######## APS360: Do not change the next line. This shows your Main body page count.
 ----Total Pages: \pageref{last_page}
 \end{abstract}
@@ -135,76 +135,100 @@ their respective categories (ex. human\_0001.jpg).
 
 This project requires a unique dataset with black-and-white images paired with their coloured counterparts as the ground truths. To format the cleaned up data and create this dataset, 
 PyTorch's \verb|torchvision.transforms| library was utiltized. The team first converted the original images into 256 x 256 pixel ground truth images using the \verb|Resize| transform 
-and sorted them according to their category. Following this, \verb|Grayscale| transform with a output channel of 1 was used to convert the 256 x 256 pixel colour images to 256 x 256 
-pixel grayscale images to feed into the model. 
+and sorted them according to their category. Subsequently, the \verb|Grayscale| transform (output channel = 1) converted the 256$\times$256 pixel colour images into grayscale for input to the model.
 
 \subsection{Splitting Dataset Into Training, Validation and Test Sets}
 
-To create the training, validation and test sets, a ratio of 70:15:15 was chosen. The first 2940 images of each of dataset categories (human/animal/scene) were selected for the training 
-set. The remaining images were split evenly to create the validation and testing datasets. 
+The datasets were split into training, validation, and test sets in a 70:15:15 ratio. For each category (human, animal, scene), the first 2940 images formed the training set, with the rest
+split evenly between validation and testing.
 
 \subsection{The Final Dataset}
 
-The final dataset is composed of 12,600 pairs of colour and their corresponding grayscale images. Each category (human, animal, and scenic) contains 4,200 image pairs and an even 
-distribution of each category was maintained in the training, validation and test sets.
+The final dataset contains 12{,}600 colour-grayscale image pairs, evenly divided into three categories (human, animal, scenic) with 4{,}200 pairs each. Category balance was maintained across 
+the training, validation, and test sets, illustrated in Figure~\ref{fig:data_split}. 
 
-\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
-  \centering
-  \includegraphics[width=0.65\linewidth]{Figs/dataset1.png}
-  \caption{Training, Validation and Test Set Distribution of 12600 Image Pairs}
-  \label{fig:dataset}
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+% Define colours
+\definecolor{traincol}{RGB}{100,149,237}   % Cornflower blue
+\definecolor{valcol}{RGB}{60,179,113}     % Medium sea green
+\definecolor{testcol}{RGB}{255,20,0}      % Red
+
+% Total width and height of bar
+\newlength{\totalwidth}
+\setlength{\totalwidth}{14cm}
+\newlength{\barheight}
+\setlength{\barheight}{1.5cm}
+
+% Widths proportional to 70:15:15
+\newlength{\trainwidth}
+\setlength{\trainwidth}{0.6\totalwidth}
+\newlength{\valwidth}
+\setlength{\valwidth}{0.2\totalwidth}
+\newlength{\testwidth}
+\setlength{\testwidth}{0.2\totalwidth}
+
+% Draw stacked bar
+\draw[fill=traincol] (0,0) rectangle (\trainwidth,\barheight) node[midway,white]{Training 8820};
+\draw[fill=valcol] (\trainwidth,0) rectangle (\trainwidth+\valwidth,\barheight) node[midway,white]{Validation 1890};
+\draw[fill=testcol] (\trainwidth+\valwidth,0) rectangle (\totalwidth,\barheight) node[midway,white]{Test 1890};
+
+% Outline
+\draw (0,0) rectangle (\totalwidth,\barheight);
+\end{tikzpicture}
+\caption{Distribution of 12{,}600 image pairs across training, validation, and test sets.}
+\label{fig:data_split}
 \end{figure}
+
+\section{Architecture}
+
+Our primary colourization model is a convolutional encoder-decoder network, a common architecture for image-to-image translation \citep{leatvanich2025image}. Operating in the CIELAB colour 
+space, the model takes the L channel (perceptual lightness) as input and predicts the a and b chrominance channels. To ensure input-target consistency, the L channel is derived directly 
+from the same RGB image used to generate the ground truth a,b channels. The predicted chrominance is then combined with the L channel and converted back to RGB for visualization. Using 
+LAB space decouples intensity from colour, aligns with human perception, and typically produces more realistic results than RGB-based models \citep{leatvanich2025image}.
+
+The architecture is a simplified U-Net. The encoder uses convolutional layers with ReLU activations and batch normalization to progressively downsample the input while extracting high-level 
+features. It begins with a 3$\times$3 convolution producing 64 feature maps, followed by layers with increasing filter counts (e.g., 128) that halve spatial resolution. A bottleneck with 256 
+filters captures abstract representations. The decoder upsamples back to the original resolution using transposed convolutions to predict the a,b channels, with skip connections preserving 
+edges and textures \citep{leatvanich2025image}.
+
+We initialize the encoder with ResNet-18 weights pretrained on ImageNet, leveraging semantic features learned from large-scale datasets to better infer plausible colours for common objects 
+\citep{olah2022lettherebecolor}. The decoder and output layers are trained from scratch.
+
+Rather than classifying discrete colour bins \citep{olah2022lettherebecolor}, we use a regression-based approach that directly predicts continuous a,b values. The output head is linear without 
+\verb|tanh| activation, avoiding chroma saturation and preserving the full colour range.
+
+To promote vibrant, diverse colourization and reduce bias toward brownish tones, we use a weighted colour loss informed by a dataset-wide chrominance prior. A robust (Huber) pixel loss further 
+improves performance by handling uncertainty and avoiding bias toward low-chroma predictions. All augmentations are applied consistently to input and target images, with vertical flips excluded 
+to preserve semantic orientation. To shorten training, prior computations are cached and updated once per epoch, reducing runtime from six hours to one.
 
 \section{Illustration}
 
+The top row shows the encoder, consisting of blocks with two convolutional layers followed by max pooling, progressively downsampling the grayscale L channel from 256$\times$256 to 32$\times$32 
+while increasing feature depth from 64 to 512. The bottom row shows the decoder, which uses upsampling blocks to restore full resolution and predict the two chrominance channels (a and b). Coloured 
+arrows mark four skip connections that transfer fine-grained features from encoder layers to corresponding decoder stages.
+
 \begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
   \centering
-  \includegraphics[width=0.9\linewidth]{Figs/architecture.png}
+  \includegraphics[width=1.1\linewidth]{Figs/architecture-diagram.png}
   \caption{Encoder-decoder colourization network with skip connections.}
   \label{fig:architecture}
 \end{figure}
 
-The top row shows the encoder, composed of blocks with two convolutional layers followed by max pooling, which progressively downsample the grayscale L channel from 256x256 to 32x32 
-while increasing feature depth from 64 to 512. The bottom row depicts the decoder, which uses upsampling blocks to restore full resolution and predict the two chrominance channels 
-(a and b). Dashed arrows indicate the three skip connections that transfer fine-grained features from corresponding encoder layers to the decoder stages.
-
-\section{Architecture}
-
-Our primary model for colourization is a convolutional encoder-decoder network, a common architecture for image-to-image translation tasks \citep{leatvanich2025image}. Operating in 
-the CIE Lab colour space, the model takes the L channel (lightness) as input and predicts the a and b chrominance channels. To ensure input-target consistency, we derive the L channel 
-directly from the same RGB image used to generate the ground truth a,b channels. The predicted chrominance values are then combined with the L channel and converted back to RGB for 
-visualization. This use of Lab space decouples intensity from colour, aligning with human perception and typically yielding more realistic results than RGB-based models \citep{leatvanich2025image}.
-
-The architecture resembles a simplified U-Net. The encoder consists of convolutional layers with ReLU activations and batch normalization that progressively downsample the input while 
-extracting high-level features. For example, the model starts with a 3×3 convolution producing 64 feature maps, followed by layers with increasing filter counts (e.g., 128), each halving 
-spatial resolution. A bottleneck with 256 filters captures abstract representations. The decoder upsamples these back to the original resolution using transposed convolutions, predicting 
-the a,b channels. Skip connections between encoder and decoder layers help preserve edge and texture details \citep{leatvanich2025image}.
-
-We initialized the encoder with ResNet-18 weights pretrained on ImageNet, leveraging semantic features learned from large-scale datasets to better infer plausible colours for common 
-objects \citep{olah2022lettherebecolor}. The decoder and output layers were trained from scratch.
-
-Rather than formulating colourization as classification over discrete colour bins \citep{olah2022lettherebecolor}, we use a regression-based approach that directly predicts continuous 
-a,b values. The model uses a linear output head without tanh activation to avoid chroma saturation and preserve the full colour range.
-
-To encourage vibrant, diverse colourization and reduce bias toward brownish tones, we apply a weighted colour loss informed by a dataset-wide chrominance prior. We also use a robust 
-(Huber) pixel loss, which better handles uncertainty and avoids bias toward low-chroma predictions. All augmentations were applied consistently to both input and target images, with 
-vertical flips excluded to preserve semantic orientation. Finally, to reduce training time, prior computations were cached and updated once per epoch, reducing training from six hours to one.
-
 \section{Baseline Model}
 \label{baseline}
 
-Our main baseline was a shallow encoder-decoder convolutional neural network, designed to be lightweight and fast to train. The model accepted the L channel of a grayscale image as 
-input and predicted the a and b chrominance channels. The encoder consisted of two convolutional layers: the first mapped the input to 64 channels using a 3x3 3x3 kernel with padding 1, 
-followed by a ReLU activation; the second expanded to 128 channels using the same kernel size and activation. A max pooling layer with a 2x22x2 kernel and stride 2 then reduced the 
-spatial resolution by half. This was followed by a bottleneck layer with 256 filters and a ReLU activation, which further processed the compressed feature representation \citep{leatvanich2025image}.
+Our baseline was a shallow encoder-decoder convolutional network, designed to be lightweight and fast to train. The model took the L channel of a grayscale image as input and predicted the a and b 
+chrominance channels. The encoder had two convolutional layers: the first mapped the input to 64 channels using a 3$\times$3 kernel with padding 1 and ReLU activation, and the second expanded to 128 
+channels with the same kernel and activation. A max-pooling layer with 2$\times$2 kernel and stride 2 halved the spatial resolution, followed by a bottleneck layer with 256 filters and ReLU activation 
+to process the compressed features \citep{leatvanich2025image}.
 
-The decoder upsampled the feature map using a transposed convolution that reduced the number of channels from 256 back to 128 while restoring the original resolution, followed by ReLU. 
-A final convolutional layer projected to 2 output channels corresponding to the a and b values, and a Tanh activation was applied to constrain the outputs to the normalized Lab colour 
-range of [-1,1][-1,1] \citep{rosebrock2019bwcolorization}.
+The decoder upsampled the features using a transposed convolution that reduced channels from 256 to 128 while restoring resolution, followed by ReLU. A final convolution projected to 2 output channels 
+for the a and b values, with Tanh activation to constrain outputs to the normalized LAB range [-1,1] \citep{rosebrock2019bwcolorization}.
 
-We made no architectural or hyperparameter changes to this baseline throughout the project. It lacked skip connections, pretrained components, or deep 
-feature extraction, and as expected, often produced desaturated or muted results. Nonetheless, it served as a clear and reproducible benchmark against which the improvements from our 
-full model could be evaluated.
+No architectural or hyperparameter changes were made to this baseline. It lacked skip connections, pretrained components, or deep feature extraction, and often produced desaturated results. Nevertheless, 
+it provided a clear, reproducible benchmark to evaluate improvements from our full model.
 
 \section{Quantitative Results}
 \label{quant_results}
@@ -212,7 +236,8 @@ full model could be evaluated.
 We used a combination of smooth loss and colourfullness metric to calculate the loss values for our model. The colourfullness metric encouraged the model to use more saturated colours
 instead of resorting to brown hues, which is an issue we previously encountered. 
 
-Validation and training loss was documented after every epoch and the results were graphed, as shown in Figure~\ref{fig:loss_curve}. We observed some overfitting, as the final training loss was 0.004423, and the final validation loss was 0.007595.
+Validation and training loss was documented after every epoch and the results were graphed, as shown in Figure~\ref{fig:loss_curve}. We observed some overfitting, as the final training loss was 0.004423, 
+and the final validation loss was 0.007595.
 
 \begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
   \centering
@@ -272,7 +297,8 @@ Included below in \ref{fig:test-data-example} is an example of the model's perfo
 Our model generally performed well, especially on landscape images, where predicted colours often aligned well with the ground truth. These results suggest the model successfully
 learned broad structural features such as skies, foliage, and terrain. However, performance declined on images featuring humans and animals, particularly when the ground truth
 contained highly saturated or vibrant colours. In such cases, both the baseline and our primary model tended toward muted, brownish hues. This behaviour likely arises from the
-pixel-wise loss, which encourages the model to average colours to minimize error—resulting in desaturated outputs that reduce loss but compromise visual realism. Furthermore, from colour clustering performed on the dataset (see Figure 7), the most dominant hues were grays and browns; this may have contributed to the preliminary model's muted, brownish outputs. 
+pixel-wise loss, which encourages the model to average colours to minimize error—resulting in desaturated outputs that reduce loss but compromise visual realism. Furthermore, 
+from colour clustering performed on the dataset (see Figure 7), the most dominant hues were grays and browns; this may have contributed to the preliminary model's muted, brownish outputs. 
 
 \begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
   \centering
@@ -297,22 +323,19 @@ on network design, but also on careful attention to loss behaviour, data distrib
 \section{Ethical Considerations}
 \label{ethical}
 
-The dataset used is publicly available, so there are no copyright or consent concerns. However, there is potential for representation bias, as the dataset may contain imbalances
-in race, skin tone, animal breeds, or fur colours. For instance, if lighter-skinned individuals are overrepresented, the model may produce unrealistic or culturally insensitive colourizations 
-for darker-skinned individuals. A similar issue applies to animals: limited diversity in breeds or fur patterns may lead to misleading results. While such issues have not visibly appeared in 
-our outputs, they remain a risk, especially if colourized images are used for educational purposes or identification tasks.
+The dataset is publicly available, so there are no copyright or consent concerns. However, representation bias is possible if certain groups are overrepresented, such as lighter-skinned 
+individuals, specific animal breeds, or particular fur colours. In such cases, the model may produce unrealistic or culturally insensitive colourizations. While these issues have not appeared 
+in our outputs, they remain a potential risk, especially if colourized images are used for educational or identification purposes.
 
-There is also a risk of evaluation bias. Without knowledge of the dataset's demographic distribution, we cannot ensure the model performs equally well across all categories. This 
-uncertainty could skew evaluation metrics and lead to misinterpretation of the model's effectiveness.
+Evaluation bias is also a concern. Without knowledge of the dataset's demographic distribution, we cannot guarantee uniform model performance across all categories, which may skew metrics 
+and misrepresent effectiveness.
 
-Finally, because the model generates plausible but unverifiable outputs, there is a risk that users may place undue trust in the results. It is therefore critical to communicate the model's 
-limitations clearly and avoid using it in contexts that require factual accuracy.
+Finally, because the model generates plausible but unverifiable outputs, users may place undue trust in the results. It is therefore important to communicate these limitations clearly and 
+avoid applying the model in contexts that require factual accuracy.
 
 \label{last_page}
 
 \newpage
 \bibliographystyle{iclr2022_conference}
 \bibliography{APS360_Final_Report_ref}
-
-
 \end{document}

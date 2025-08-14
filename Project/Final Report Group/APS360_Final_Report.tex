@@ -57,7 +57,6 @@ Student\# 10115358424 \\
 %######## APS360: Document starts here
 \begin{document}
 
-
 \maketitle
 
 \begin{abstract}
@@ -68,7 +67,6 @@ encoder-decoder architecture. This design captures high-level semantic features 
 %######## APS360: Do not change the next line. This shows your Main body page count.
 ----Total Pages: \pageref{last_page}
 \end{abstract}
-
 
 \section{Introduction}
 
@@ -135,17 +133,18 @@ their respective categories (ex. human\_0001.jpg).
 
 This project requires a unique dataset with black-and-white images paired with their coloured counterparts as the ground truths. To format the cleaned up data and create this dataset, 
 PyTorch's \verb|torchvision.transforms| library was utiltized. The team first converted the original images into 256 x 256 pixel ground truth images using the \verb|Resize| transform 
-and sorted them according to their category. Subsequently, the \verb|Grayscale| transform (output channel = 1) converted the 256$\times$256 pixel colour images into grayscale for input to the model.
+and sorted them according to their category. Subsequently, the \verb|Grayscale| transform (output channel = 1) converted the 256$\times$256 pixel colour images into grayscale for input 
+to the model.
 
 \subsection{Splitting Dataset Into Training, Validation and Test Sets}
 
-The datasets were split into training, validation, and test sets in a 70:15:15 ratio. For each category (human, animal, scene), the first 2940 images formed the training set, with the rest
-split evenly between validation and testing.
+The datasets were split into training, validation, and test sets in a 70:15:15 ratio. For each category (human, animal, scene), the first 2940 images formed the training set, with the 
+restsplit evenly between validation and testing.
 
 \subsection{The Final Dataset}
 
-The final dataset contains 12{,}600 colour-grayscale image pairs, evenly divided into three categories (human, animal, scenic) with 4{,}200 pairs each. Category balance was maintained across 
-the training, validation, and test sets, illustrated in Figure~\ref{fig:data_split}. 
+The final dataset contains 12{,}600 colour-grayscale image pairs, evenly divided into three categories (human, animal, scenic) with 4{,}200 pairs each. Category balance was maintained 
+across the training, validation, and test sets, illustrated in Figure~\ref{fig:data_split}. 
 
 \begin{figure}[h]
 \centering
@@ -205,30 +204,33 @@ to preserve semantic orientation. To shorten training, prior computations are ca
 
 \section{Illustration}
 
-The top row shows the encoder, consisting of blocks with two convolutional layers followed by max pooling, progressively downsampling the grayscale L channel from 256$\times$256 to 32$\times$32 
-while increasing feature depth from 64 to 512. The bottom row shows the decoder, which uses upsampling blocks to restore full resolution and predict the two chrominance channels (a and b). Coloured 
-arrows mark four skip connections that transfer fine-grained features from encoder layers to corresponding decoder stages.
+The top row shows the encoder, consisting of blocks with two convolutional layers followed by max pooling, progressively downsampling the grayscale L channel from 256$\times$256 to 
+32$\times$32 while increasing feature depth from 64 to 512. The bottom row shows the decoder, which uses upsampling blocks to restore full resolution and predict the two chrominance channels 
+(a and b). Coloured arrows mark four skip connections that transfer fine-grained features from encoder layers to corresponding decoder stages (see Figure~\ref{fig:architecture}).
 
-\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+\begin{figure}[H]
   \centering
+  \vspace{-1em} % reduce space before figure
   \includegraphics[width=1.1\linewidth]{Figs/architecture-diagram.png}
-  \caption{Encoder-decoder colourization network with skip connections.}
+  \vspace{-0.5em} % reduce space before caption
+  \caption{Encoder–decoder colourization network with skip connections from encoder to decoder stages, 
+  enabling transfer of fine-grained features during upsampling.}
   \label{fig:architecture}
 \end{figure}
 
 \section{Baseline Model}
 \label{baseline}
 
-Our baseline was a shallow encoder-decoder convolutional network, designed to be lightweight and fast to train. The model took the L channel of a grayscale image as input and predicted the a and b 
-chrominance channels. The encoder had two convolutional layers: the first mapped the input to 64 channels using a 3$\times$3 kernel with padding 1 and ReLU activation, and the second expanded to 128 
-channels with the same kernel and activation. A max-pooling layer with 2$\times$2 kernel and stride 2 halved the spatial resolution, followed by a bottleneck layer with 256 filters and ReLU activation 
-to process the compressed features \citep{leatvanich2025image}.
+Our baseline was a shallow encoder-decoder convolutional network, designed to be lightweight and fast to train. The model took the L channel of a grayscale image as input and predicted 
+the a and b chrominance channels. The encoder had two convolutional layers: the first mapped the input to 64 channels using a 3$\times$3 kernel with padding 1 and ReLU activation, and the 
+second expanded to 128 channels with the same kernel and activation. A max-pooling layer with 2$\times$2 kernel and stride 2 halved the spatial resolution, followed by a bottleneck layer 
+with 256 filters and ReLU activation to process the compressed features \citep{leatvanich2025image}.
 
-The decoder upsampled the features using a transposed convolution that reduced channels from 256 to 128 while restoring resolution, followed by ReLU. A final convolution projected to 2 output channels 
-for the a and b values, with Tanh activation to constrain outputs to the normalized LAB range [-1,1] \citep{rosebrock2019bwcolorization}.
+The decoder upsampled the features using a transposed convolution that reduced channels from 256 to 128 while restoring resolution, followed by ReLU. A final convolution projected to 2 
+output channels for the a and b values, with Tanh activation to constrain outputs to the normalized LAB range [-1,1] \citep{rosebrock2019bwcolorization}.
 
-No architectural or hyperparameter changes were made to this baseline. It lacked skip connections, pretrained components, or deep feature extraction, and often produced desaturated results. Nevertheless, 
-it provided a clear, reproducible benchmark to evaluate improvements from our full model.
+No architectural or hyperparameter changes were made to this baseline. It lacked skip connections, pretrained components, or deep feature extraction, and often produced desaturated results. 
+Nevertheless, it provided a clear, reproducible benchmark to evaluate improvements from our full model.
 
 \section{Quantitative Results}
 \label{quant_results}
@@ -236,89 +238,94 @@ it provided a clear, reproducible benchmark to evaluate improvements from our fu
 We used a combination of smooth loss and colourfullness metric to calculate the loss values for our model. The colourfullness metric encouraged the model to use more saturated colours
 instead of resorting to brown hues, which is an issue we previously encountered. 
 
-Validation and training loss was documented after every epoch and the results were graphed, as shown in Figure~\ref{fig:loss_curve}. We observed some overfitting, as the final training loss was 0.004423, 
-and the final validation loss was 0.007595.
+Validation and training loss was documented after every epoch and the results were graphed, as shown in Figure~\ref{fig:loss_curve}. We observed some overfitting, as the final 
+training loss was 0.004423, and the final validation loss was 0.007595.
 
 \begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
   \centering
   \includegraphics[width=0.9\linewidth]{Figs/loss_curve.png}
-  \caption{Learning curve showing training and validation loss of model over 30 epochs.}
+  \caption{Learning curve showing training and validation loss over 30 epochs. Validation loss converges after about 15 epochs while training loss continues to decrease, indicating slight overfitting.}
   \label{fig:loss_curve}
 \end{figure}
 
 \section{Qualitative Results}
 \label{qual_results}
 
-Our primary model consistently outperformed the baseline, particularly on landscape scenes where the network was able to recover vibrant skies, foliage, and water with relatively 
-realistic hues. In contrast, the baseline produced dull or grayish outputs that lacked semantic colour cues. Figure~\ref{fig:landscape_comparison} shows this clear contrast: while 
-the baseline yields low-saturation results, the primary model introduces plausible blue and green tones, suggesting the network successfully learned common associations between luminance 
-and scene content.
+Our primary model consistently outperformed the baseline, particularly on landscape scenes where the network recovered vibrant skies, foliage, and water with relatively realistic hues, 
+while the baseline produced dull or grayish outputs lacking semantic colour cues. In many cases, the primary model introduced plausible blue and green tones, suggesting it successfully 
+learned common associations between luminance and scene content (see Figure~\ref{fig:landscape_comparison}).
 
-Performance was less reliable on images of animals and humans, especially when the ground truth involved bright or saturated colours. In these cases, both the baseline and primary models 
-tended to favour brownish or muted tones, likely due to the loss function penalizing deviations from average colours. This averaging effect is illustrated in Figure~\ref{fig:final-model-zebra},
-where facial features and fur appear washed out or overly neutral.
-
-\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+\begin{figure}[H]
   \centering
-  \includegraphics[width=0.9\linewidth]{Figs/final-model-example.png}
-  \caption{Example output of a zebra image from the primary model. The model successfully captures the zebra's stripes and fur texture, producing a realistic colourization.}
-  \label{fig:final-model-zebra}
+  \includegraphics[width=0.9\linewidth]{Figs/landscape-result-example.png}
+  \caption{Colourized output of a river bank scene with trees and sky. The model recovers vibrant blues and greens that closely match natural colour expectations.}
+  \label{fig:landscape_comparison}
 \end{figure}
 
-We also experimented with several alternate architectures: diverse colourization, quantized outputs using colour bins, multi-path networks, and exemplar-based models. Despite their 
-conceptual appeal, these approaches often underperformed our original model. Figure~\ref{fig:colour-bins-landscape} displays the results from the colour bin model. The exemplar and multi-path models 
-frequently introduced a purplish tint across diverse inputs, while the quantized and diverse variants still exhibited the same dulling behaviour due to similar averaging tendencies. 
-These results highlight that added architectural complexity does not guarantee improved performance, and in some cases, may exacerbate artefacts or introduce new failure modes.
+Performance was less reliable on images of animals and humans, especially when the ground truth involved bright or saturated colours. This averaging effect was common in images 
+with strong borders between different colours, as the loss function penalized deviations from average tones. In more extreme cases, such as in Figure~\ref{fig:final-model-turtle}, 
+much of the turtle's shell and surrounding water are rendered grey, muting the scene overall.
 
-\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\linewidth]{Figs/turtle-result-example.png}
+  \caption{Colourized output featuring a sea turtle. Large areas of the shell and surrounding water appear muted to grey, illustrating an averaging effect that reduces overall vibrancy.}
+  \label{fig:final-model-turtle}
+\end{figure}
+
+We also experimented with alternate architectures including diverse colourization, quantized outputs using colour bins, multi-path networks, and exemplar-based models. Despite their 
+conceptual appeal, these approaches often underperformed the original model. The exemplar and multi-path models frequently introduced a purple tint across diverse inputs, while the 
+quantized and diverse variants still exhibited muted colours due to similar averaging tendencies. These results highlight that added architectural complexity does not guarantee improved 
+performance and, in some cases, can introduce new  failure modes.
+
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=0.9\linewidth]{Figs/colour-bins-landscape.jpg}
-  \caption{Example output of the colour bin model on a landscape image. The model attempts to predict colours using quantized bins, but the results are often muted and lack vibrancy.}
+  \caption{Colour bin model output for a landscape scene. The image appears muted and lacks vibrancy, reflecting similar shortcomings observed in the original model's failure cases.}
   \label{fig:colour-bins-landscape}
 \end{figure}
 
 \section{Evaluation on New Data}
 \label{new_data}
 
-Our model was evaluated on a separate test set of 1,890 images, which were not used during training or validation. The model performed well relative to the validation results. More explcitly, the model achieved 
-a final test loss of 0.007870, which is slightly higher than the validation loss of 0.007595. This indicates that the model generalizes well to unseen data, maintaining its ability to produce realistic colourizations across diverse image categories. 
-Included below in \ref{fig:test-data-example} is an example of the model's performance on a test image, demonstrating its ability to capture the scene's structure and colour distribution effectively.
+Our model was evaluated on a separate test set of 1,890 images, which were not used during training or validation. The model performed well relative to the validation results. Specifically, 
+it achieved a final test loss of 0.007870, slightly higher than the validation loss of 0.007595. This indicates that the model generalizes well to unseen data, maintaining its ability to 
+produce realistic colourizations across diverse image categories. Included below in Figure~\ref{fig:test-data-example} is an example of the model's performance on an image from the test 
+dataset, demonstrating its ability to capture the scene's structure and colour distribution effectively.
 
-\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+\begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.9\linewidth]{Figs/test_data_result_example.png}
-  \caption{Example output of from the test dataset. The model captures most of the scene's structure and colour distribution, but struggles to produce vibrant blue hues for the water.}
+  \includegraphics[width=0.95\linewidth]{Figs/test_data_result_example.png}
+  \caption{Example result of the model on a test image, showing accurate structure and colour distribution.}
   \label{fig:test-data-example}
 \end{figure}
 
 \section{Discussion}
 \label{discussion}
 
-Our model generally performed well, especially on landscape images, where predicted colours often aligned well with the ground truth. These results suggest the model successfully
-learned broad structural features such as skies, foliage, and terrain. However, performance declined on images featuring humans and animals, particularly when the ground truth
-contained highly saturated or vibrant colours. In such cases, both the baseline and our primary model tended toward muted, brownish hues. This behaviour likely arises from the
-pixel-wise loss, which encourages the model to average colours to minimize error—resulting in desaturated outputs that reduce loss but compromise visual realism. Furthermore, 
-from colour clustering performed on the dataset (see Figure 7), the most dominant hues were grays and browns; this may have contributed to the preliminary model's muted, brownish outputs. 
+Our model generally performed well, particularly on landscape images, where predicted colours often aligned with the ground truth. This suggests the model successfully learned broad 
+structural features such as skies, foliage, and terrain. Performance was weaker on images of humans and animals, especially when the ground truth contained multiple highly saturated 
+colours. In these cases, both the baseline and primary model tended toward muted brownish tones. This behaviour likely stems from the pixel-wise loss, which encourages averaging to 
+minimize error, producing desaturated outputs that reduce loss but compromise visual realism. Colour clustering on the dataset (Figure~\ref{fig:dom-colours}) shows that gray and brown 
+tones dominate, which may have contributed to these muted outputs.
 
-\begin{figure}[htbp]            % h=here, t=top, b=bottom, p=page float
+\begin{figure}[htbp]
   \centering
   \includegraphics[width=0.95\linewidth]{Figs/dom-colours.png}
-  \caption{The dominant five colours in dataset from K-means colour clustering}
+  \caption{The five dominant colours in the dataset identified using K-means clustering}
   \label{fig:dom-colours}
 \end{figure}
 
-To explore alternative strategies, we experimented with several advanced colourization approaches, including diverse colourization (generating multiple plausible outputs),
-quantized prediction using discrete colour bins, multi-path architectures, and exemplar-based methods. Despite their conceptual promise, these alternatives failed to outperform
-our initial primary model, both quantitatively and qualitatively. In particular, the multi-path and exemplar-based models often produced outputs with a noticeable purple hue, 
-suggesting instability or poor alignment between reference features and target content. 
-Other approaches encountered similar issues of colour averaging, with results again skewing 
-brown or gray to minimize loss.
+We also explored alternative colourization approaches, including diverse colourization (generating multiple plausible outputs), quantized predictions using discrete colour bins, 
+multi-path architectures, and exemplar-based methods. Despite their promise, these alternatives did not outperform the primary model in accuracy or visual quality. Multi-path and 
+exemplar-based models often produced a noticeable purple hue, indicating instability or poor alignment between reference features and target content. Other methods continued to exhibit 
+colour averaging, resulting in dull or brownish outputs.
 
-These findings were unexpected, although the alternative architectures seemed promising in theory, our initial model consistently performed better in both accuracy and visual quality. 
-This shows that adding architectural complexity does not necessarily lead to better outcomes. In fact, some modifications introduced new problems—for example, the exemplar-based and 
-multi-path models often produced a noticeable purple hue. Others, such as the quantized and diverse models, still struggled with the same tendency to average colours, leading to dull 
-or brownish results. Overall, this highlighted the importance of a balanced and well-tuned architecture. Through this process, we learned that effective colourization depends not just 
-on network design, but also on careful attention to loss behaviour, data distribution, and how these elements influence model outputs.
+These findings suggest that adding architectural complexity does not guarantee improvement. Some modifications introduced new artefacts, while others retained the same averaging tendencies. 
+Overall, this highlights the importance of balanced architecture and careful tuning. Effective colourization depends not only on network design but also on the interaction between loss 
+function, data distribution, and how these factors shape model outputs.
+
+\pagebreak
 
 \section{Ethical Considerations}
 \label{ethical}

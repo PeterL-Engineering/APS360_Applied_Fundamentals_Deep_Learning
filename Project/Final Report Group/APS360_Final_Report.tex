@@ -340,6 +340,18 @@ and misrepresent effectiveness.
 Finally, because the model generates plausible but unverifiable outputs, users may place undue trust in the results. It is therefore important to communicate these limitations clearly and 
 avoid applying the model in contexts that require factual accuracy.
 
+\section{Project Difficulty}
+\label{difficulty}
+
+The image colourization problem presents a higher level of difficulty compared to typical supervised learning tasks, as a single grayscale input can map to multiple 
+plausible colourizations. Our dataset further increased this challenge by including three distinct categories (humans, animals, and natural scenes), each with diverse and complex colour distributions.
+Unlike classification problems, our model required predictions of continuous chrominance values for each pixel, making the task significantly more demanding.
+
+Despite these challenges, our model achieved strong results, with the test loss (0.007870) closely matching the validation loss (0.007595), which demonstrates good 
+generalization. Qualitative outputs show that the model produces realistic blues and greens in landscapes and surpasses our shallow baseline model in vibrancy and semantic plausibility. While performance 
+on humans and animals was less reliable due to averaging effects, we addressed these challenges by experimenting with weighted colour priors and alternative architectures, such as multi-path and 
+exemplar-based models. These explorations required substantial learning beyond course requirements and challenged us to balance architecture, loss functions, and dataset biases.
+
 \label{last_page}
 
 \newpage

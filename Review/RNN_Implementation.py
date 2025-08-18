@@ -28,10 +28,9 @@ def train(mode, train, val, n_epochs=5, lr=1e-5):
     optimizer = torch.optim.Adam(mode.parameters(), lr = lr)
 
     for epoch in range(n_epochs):
-        for tweens, labels in train:
+        for tweets, labels in train:
             optimizer.zero_grad()
             pred = model(tweets)
             loss = criterion(pred, labels)
             loss.backward()
             loss.step()
-            

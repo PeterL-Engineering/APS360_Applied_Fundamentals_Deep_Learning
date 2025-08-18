@@ -34,3 +34,36 @@ def train(mode, train, val, n_epochs=5, lr=1e-5):
             loss = criterion(pred, labels)
             loss.backward()
             loss.step()
+
+# RNN with Gated Recurrent Unit (GRU)
+
+class TweetRNN_GRU(nn.Module):
+    def __init__(self, input_size, hidden_size, num_class):
+        super(TweetRNN, self).__init__()
+        self.emb = nn.Embedding.from_pretrained(glove.vectors)
+        self.hidden_size = hidden_size
+        self.rnn = nn.GRU(input_size, hidden_size, batch_first=True) # We change nn.RNN to nn.GRU
+        self.fc = nn.Linear(hidden_size, num_class)
+
+    def forward(self, x):
+        x = self.emb(x)                                     # Look-up the embeddings
+        h0 = torch.zeros(1, x.size(0), self.hidden_size)    # Initial hidden state
+        out, _ = self.rnn(x, h0)                            # Forward propagate RNN
+        return self.fc(out[:, -1, :])       
+
+# RNN with Long-Short Term Memory (LSTM)
+
+class TweetRNN(nn.Module):
+    def __init__(self, input_size, hidden_size, num_class):
+        super(TweetRNN, self).__init__()
+        self.emb = nn.Embedding.from_pretrained(glove.vectors)
+        self.hidden_size = hidden_size
+        self.rnn = nn.LSTM(input_size, hidden_size, batch_first=True)
+        self.fc = nn.Linear(hidden_size, num_class)
+
+    def forward(self, x):
+        x = self.emb(x)                                     # Look-up the embeddings
+        h0 = torch.zeros(1, x.size(0), self.hidden_size)    # Initial hidden state
+        c0 = torch.zeros(1, x.size(0), self.hidden_size)
+        out, _ = self.rnn(x, (h0, c0))                      # Forward propagate RNN
+        return self.fc(out[:, -1, :])       

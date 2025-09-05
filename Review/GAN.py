@@ -35,7 +35,7 @@ class Discriminator(nn.Module):
         return outputs, loss
 
 class Generator(nn.Module):
-    def __initi__(self):
+    def __init__(self):
         super(Generator, self).__init__()
         self.model = nn.Sequential(
             nn.Linear(100, 300),
